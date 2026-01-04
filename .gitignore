@@ -46,3 +46,6 @@ replay_pid*
 # development and testing only
 /parking lot/
 /to-grade/
+
+# school stuff
+/edu/
