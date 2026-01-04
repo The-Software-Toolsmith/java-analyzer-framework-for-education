@@ -1,0 +1,48 @@
+# Java class files
+*.class
+
+# Logs and debug output
+*.log
+*.out
+*.tmp
+*.dat
+hs_err_pid*
+replay_pid*
+
+# Maven output
+/target/
+/test-logs/
+/surefire-reports/
+/jacoco.exec
+/test-results/
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+
+# Packaging formats
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# BlueJ
+*.ctxt
+
+# J2ME
+.mtj.tmp/
+
+# development and testing only
+/parking lot/
+/to-grade/

@@ -1,0 +1,303 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+          "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+          "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<!--
+  Course Checkstyle configuration (starter)
+
+  Encodes:
+    - 4-space indentation, spaces-not-tabs
+    - max line length 110
+    - Allman-style braces (next line)
+    - strict, consistent whitespace rules
+    - required Javadoc on all methods, and on externally visible types/fields
+    - simplified boolean expressions / returns (no == true/false, no ? true:false)
+    - all field references must be qualified (this.field or other.field)
+
+  Tune modules as you refine your coding standard.
+-->
+
+<!-- for convenient copy/paste
+        <property name="severity" value="ignore"/>
+        <property name="severity" value="info" />
+        <property name="severity" value="warning"/>
+        <property name="severity" value="error"/>
+-->
+
+<module name="Checker">
+<!--    <property name="basedir" value="src/main/java"/> -->
+
+    <!-- Match Eclipse line width -->
+    <module name="LineLength">
+        <property name="max" value="110"/>
+        <property name="ignorePattern"
+                  value="(?x)                                      # free-spacing / comments
+                         ^\\s*//.*$                                # full-line // comment
+                         | ^\\s*/\\*.*\\*/$                        # single-line /* ... */ comment
+                         | ^.*&quot;.*&quot;.*$                    # line containing a string literal (optional)
+                         | ^\\s*\\.\\w+\\(.*$                      # chained call starting with '.'
+                         | ^\\s{12,}\\S.*(,|\\)|;)\\s*$            # heavily-indented continuation line
+                        "/>
+        <property name="severity" value="info" />
+    </module>
+
+
+    <property name="tabWidth" value="4"/>
+    
+    <!-- Enforce spaces (no literal tabs) -->
+    <module name="FileTabCharacter">
+        <property name="eachLine" value="true"/>
+        <property name="severity" value="info" />
+    </module>
+
+
+    <!-- Basic file-level hygiene -->
+    
+<!--    <module name="NewlineAtEndOfFile"/> -->
+
+
+    <!-- whitespace not permitted before a comma except at the beginning 
+        of a line (e.g., enum declaration) and no space before a semicolon in a for 
+        loop but a single space required elsewhere -->
+            <!-- Require exactly one space before semicolon, except in for-loops -->
+
+    <!-- 1. Missing space before semicolon (only at end of statement) -->
+    <module name="RegexpSingleline">
+        <property name="format"
+            value="^(?!\s*(//|/\*)).*\S;\s*(//.*|/\*.*\*/)?\s*$" />
+        <property name="message"
+            value="Missing required space before semicolon." />
+        <property name="severity" value="warning"/>
+    </module>
+
+    <!-- 2. Too many spaces before semicolon (only at end of statement) -->
+    <module name="RegexpSingleline">
+        <property name="format"
+            value="^(?!\s*(//|/\*)).*\S\s{2,};\s*(//.*|/\*.*\*/)?\s*$" />
+        <property name="message"
+            value="Too many spaces before semicolon; exactly one required." />
+        <property name="severity" value="info" />
+    </module>
+
+    <!-- 3. No space allowed before comma (except when comma is first non-space) -->
+    <module name="RegexpSingleline">
+        <property name="format" value=".*\S\s+,.*"/>
+        <property name="message" value="No space allowed before comma."/>
+        <property name="severity" value="warning"/>
+    </module>
+
+
+    <!-- Blank lines -->
+
+    <!-- flag excessive consecutive blank lines (3 or more) -->
+    <module name="RegexpMultiline">
+        <property name="matchAcrossLines" value="true" />
+        <property name="format"
+            value="(?m)^(?:[^\S\r\n]*\r?\n){3,}" />
+        <property name="message"
+            value="More than 2 consecutive blank lines are not allowed." />
+        <property name="severity" value="warning" />
+    </module>
+
+
+    <module name="TreeWalker">
+        <property name="skipFileOnJavaParseException" value="true"/>
+        <!-- <property name="javaParseExceptionSeverity" value="ignore"/> -->
+
+        <!-- 4-space indentation (from Eclipse profile) -->
+        <module name="Indentation">
+            <property name="basicOffset" value="0"/>
+            <property name="braceAdjustment" value="4"/>
+            <property name="caseIndent" value="4"/>
+            <property name="lineWrappingIndentation" value="4"/>
+            <property name="tabWidth" value="4"/>
+            <property name="severity" value="warning"/>
+        </module>
+        
+        <!-- restrict to one statement per line max -->
+        <module name="MultipleVariableDeclarations">
+            <property name="severity" value="warning"/>
+        </module>
+
+        <!-- Allman-style braces (brace on its own line) -->
+        <module name="LeftCurly">
+            <property name="option" value="nl"/>
+            <property name="tokens"
+                      value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF,
+                             METHOD_DEF, CTOR_DEF,
+                             LITERAL_IF, LITERAL_ELSE,
+                             LITERAL_FOR, LITERAL_WHILE, LITERAL_DO,
+                             LITERAL_SWITCH, LITERAL_TRY, LITERAL_CATCH, LITERAL_FINALLY,
+                             STATIC_INIT"/>
+                             <!-- deleted , INSTANCE_INIT -->
+            <property name="severity" value="error"/>
+        </module>
+
+        <module name="RightCurly">
+            <property name="option" value="alone_or_singleline"/>
+            <property name="tokens"
+                      value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF,
+                             METHOD_DEF, CTOR_DEF,
+                             LITERAL_IF, LITERAL_ELSE,
+                             LITERAL_FOR, LITERAL_WHILE, LITERAL_DO,
+                             LITERAL_SWITCH, LITERAL_TRY, LITERAL_CATCH, LITERAL_FINALLY,
+                             STATIC_INIT"/>
+                             <!-- deleted , INSTANCE_INIT -->
+            <property name="severity" value="error"/>
+        </module>
+
+        <!-- Braces required even for single-line statements -->
+        <module name="NeedBraces">
+            <property name="severity" value="error"/>
+        </module>
+
+        <!-- Empty blocks are ok -->
+        
+        <!-- Whitespace essentials -->
+
+        <!-- Space around operators, keywords, etc. -->
+        <module name="WhitespaceAround">
+            <property name="allowEmptyConstructors" value="true"/>
+            <property name="allowEmptyMethods" value="true"/>
+            <property name="allowEmptyTypes" value="true"/>
+            <property name="severity" value="warning"/>
+        </module>
+
+        <!-- Space after commas, semicolons, type casts, etc. -->
+        <module name="WhitespaceAfter">
+            <property name="severity" value="warning"/>
+        </module>
+
+        <!-- space required just inside parentheses: f(x) -> f( x ) -->
+        <module name="ParenPad">
+            <property name="option" value="space"/>
+            <property name="severity" value="warning"/>
+        </module>
+
+        <!-- No space inside cast parens: (int) x not ( int ) x -->
+        <module name="TypecastParenPad">
+            <property name="option" value="nospace"/>
+            <property name="severity" value="info" />
+        </module>
+
+        <!-- Blank lines -->
+        
+        <!-- Require separation between methods/ctors -->
+        <module name="EmptyLineSeparator">
+            <property name="tokens" value="METHOD_DEF, CTOR_DEF"/>
+            <property name="allowNoEmptyLineBetweenFields" value="true"/>
+            <property name="severity" value="info" />
+        </module>
+
+
+        <!-- Javadoc requirements -->
+
+        <!-- Externally visible types (public/protected classes/interfaces/enums) -->
+        <module name="JavadocType">
+            <property name="scope" value="private"/>
+            <property name="severity" value="error"/>
+        </module>
+
+        <!-- ALL methods (public/protected/package/private) must have Javadoc -->
+        <module name="JavadocMethod">
+            <property name="accessModifiers" value="private,package,protected,public"/>
+            <property name="allowMissingParamTags" value="false"/>
+            <property name="allowMissingReturnTag" value="false"/>
+            <property name="severity" value="error"/>
+        </module>
+
+        <!-- Externally visible fields (public/protected) -->
+        <module name="JavadocVariable">
+            <property name="accessModifiers" value="package,protected,public"/>
+            <property name="severity" value="error"/>
+        </module>
+        
+        <!-- proper Java usage -->
+        
+        <module name="UnnecessaryNullCheckWithInstanceOf">
+            <property name="severity" value="info"/>
+        </module>
+        
+        <module name="UnusedLambdaParameterShouldBeUnnamed">
+            <property name="severity" value="info"/>
+        </module>
+
+        <!-- Boolean style: no == true/false, no ?: true/false, no
+             if(cond) return true; else return false; patterns. -->
+
+        <!-- Simplify boolean expressions like: flag == true, flag != false, cond ? true : false -->
+        <module name="SimplifyBooleanExpression">
+            <property name="severity" value="warning"/>
+        </module>
+
+        <!-- Simplify boolean returns like:
+             if (cond) { return true; } else { return false; } -->
+        <module name="SimplifyBooleanReturn">
+            <property name="severity" value="warning"/>
+        </module>
+
+        <!-- Require qualification of fields: no bare 'field', must use this.field or other.field -->
+        <module name="RequireThis">
+            <property name="checkFields" value="true"/>
+            <!-- Leave methods alone to match your rule:
+                 only require this. on methods in certain contexts, which Checkstyle
+                 can’t easily detect, so we keep method calls un-checked. -->
+            <property name="checkMethods" value="false"/>
+            <property name="severity" value="error"/>
+        </module>
+
+        <!-- Basic naming checks, adjust if needed -->
+        <module name="TypeName">
+            <property name="format" value="^[A-Z][a-z][a-zA-Z0-9]*$"/>
+            <property name="severity" value="error"/>
+        </module>
+        <module name="MethodName">
+            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+            <property name="severity" value="error"/>
+        </module>
+        <module name="ParameterName">
+            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+            <property name="severity" value="error"/>
+        </module>
+        <module name="LocalVariableName">
+            <property name="format" value="^([a-z][a-zA-Z0-9]*|_)$"/>
+            <property name="allowOneCharVarInForLoop" value="true"/>
+            <property name="severity" value="error"/>
+        </module>
+        
+        <module name="ConstantName">
+            <property name="severity" value="error"/>
+        </module>
+        
+        <module name="StaticVariableName">
+            <property name="severity" value="error"/>
+        </module>
+        
+        <module name="PatternVariableName">
+            <property name="format" value="^([a-z][a-zA-Z0-9]*|_)$"/>
+            <property name="severity" value="error"/>
+        </module>
+        
+        <module name="IllegalIdentifierName">
+            <property name="severity" value="error"/>
+        </module>
+        
+        <module name="UpperEll">
+            <property name="severity" value="warning"/>
+        </module>
+
+        <module name="HiddenField">
+            <property name="severity" value="error"/>
+        </module>
+        
+        <module name="UnusedCatchParameterShouldBeUnnamed">
+            <property name="severity" value="warning"/>
+        </module>
+        
+        <module name="UnusedLambdaParameterShouldBeUnnamed">
+            <property name="severity" value="warning"/>
+        </module>
+    </module>
+    
+</module>
