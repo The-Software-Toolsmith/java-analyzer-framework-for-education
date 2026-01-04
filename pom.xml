@@ -6,7 +6,7 @@
   <artifactId>java-analyzer-framework</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>Java Analyzer Framework</name>
-  <description>This library provides tools to facilitate in-depth assessment of student projects with detailed feedback.  Student work is evaluated for correct results and compliance with coding standards and specifications.</description>
+  <description>This library provides tools to facilitate in-depth static and dynamic assessment of student projects with detailed feedback.  Student work is evaluated for correct results and compliance with coding standards and specifications.</description>
   <packaging>jar</packaging>
   
     <properties>
