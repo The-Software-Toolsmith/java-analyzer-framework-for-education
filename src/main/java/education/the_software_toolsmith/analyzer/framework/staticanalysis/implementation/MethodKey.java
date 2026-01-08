@@ -34,6 +34,7 @@ import java.util.Objects ;
  * @version 1.0 2025-12-14 Initial implementation
  * @version 1.0.1 2025-12-27 add placeholder Javadoc comments
  */
+@SuppressWarnings( "javadoc" )  // DMR FUTURE add Javadoc comments
 public class MethodKey extends SharedState
     {
 
@@ -41,7 +42,7 @@ public class MethodKey extends SharedState
     private final MethodInfo methodOrConstructorInfo ;
 
     /** PLACEHOLDER */
-    private final String className ;    // DMR TODO
+    private final String baseClassName ;
     /** PLACEHOLDER */
     private final String resolvedClassName ;
     /** PLACEHOLDER */
@@ -64,8 +65,8 @@ public class MethodKey extends SharedState
 
         this.methodOrConstructorInfo = methodInfo ;
 
-        this.className = methodInfo.getClassName() ;    // may be null
-        this.resolvedClassName = this.className ;   // may be null /* IN_PROCESS */
+        this.baseClassName = methodInfo.getClassName() ;    // may be null
+        this.resolvedClassName = this.baseClassName ;   // may be null /* IN_PROCESS */
         this.isConstructor = this.methodOrConstructorInfo.getIsConstructor() ;
         this.methodSignature = methodInfo.getCallableDeclaration().getSignature().asString() ;
 
@@ -102,8 +103,8 @@ public class MethodKey extends SharedState
         {
         
         this.methodOrConstructorInfo = null ;
-        this.className = SharedState.className ;
-        this.resolvedClassName = this.className ;
+        this.baseClassName = SharedState.className ;
+        this.resolvedClassName = this.baseClassName ;
         this.isConstructor = false ;
         this.methodSignature = method ;
         this.keyified = keyify() ;
@@ -134,10 +135,10 @@ public class MethodKey extends SharedState
     /**
      * @return the class name
      */
-    public String getClassName()
+    public String getBaseClassName()
         {
 
-        return this.className ;
+        return this.baseClassName ;
 
         }   // end getClassName()
 

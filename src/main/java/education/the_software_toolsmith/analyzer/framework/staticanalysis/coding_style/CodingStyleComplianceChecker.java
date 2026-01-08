@@ -37,7 +37,6 @@ import org.xml.sax.InputSource ;
 import java.io.File ;
 import java.nio.file.Path ;
 import java.util.ArrayList ;
-import java.util.LinkedList ;
 import java.util.List ;
 
 
@@ -166,7 +165,7 @@ public final class CodingStyleComplianceChecker extends SharedState
             checker.addListener( listener ) ;
             checker.configure( configuration ) ;
 
-            List<File> fileNames = new ArrayList<>() ;
+            List<File> fileNames = new ArrayList<>( javaFiles.size() ) ;
 
             for ( Path path : javaFiles )
                 {

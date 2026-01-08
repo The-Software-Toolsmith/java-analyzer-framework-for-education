@@ -23,9 +23,6 @@ package education.the_software_toolsmith.analyzer.tools ;
 import education.the_software_toolsmith.analyzer.framework.staticanalysis.implementation.Configuration ;
 import education.the_software_toolsmith.analyzer.framework.staticanalysis.implementation.ImplementationComplianceChecker ;
 import education.the_software_toolsmith.analyzer.framework.staticanalysis.implementation.Requirement ;
-import education.the_software_toolsmith.analyzer.framework.staticanalysis.implementation.TargetType ;
-
-import static education.the_software_toolsmith.analyzer.framework.staticanalysis.implementation.Action.* ;
 import static education.the_software_toolsmith.analyzer.framework.staticanalysis.implementation.Behavior.* ;
 import static education.the_software_toolsmith.analyzer.framework.staticanalysis.implementation.Requirement.* ;
 import static education.the_software_toolsmith.analyzer.framework.staticanalysis.implementation.TargetType.* ;

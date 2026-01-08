@@ -22,7 +22,6 @@ package education.the_software_toolsmith.analyzer.framework.staticanalysis.codin
 
 import com.puppycrawl.tools.checkstyle.api.SeverityLevel ;
 
-import java.nio.file.Path ;
 import java.util.LinkedList ;
 import java.util.List ;
 

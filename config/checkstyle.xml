@@ -111,8 +111,7 @@
             <property name="braceAdjustment" value="4"/>
             <property name="caseIndent" value="4"/>
             <property name="lineWrappingIndentation" value="4"/>
-            <property name="tabWidth" value="4"/>
-            <property name="severity" value="warning"/>
+            <property name="severity" value="warning" />
         </module>
         
         <!-- restrict to one statement per line max -->
@@ -198,6 +197,10 @@
             <property name="scope" value="private"/>
             <property name="severity" value="error"/>
         </module>
+        <module name="MissingJavadocType">
+            <property name="scope" value="private"/>
+            <property name="severity" value="error"/>
+        </module>
 
         <!-- ALL methods (public/protected/package/private) must have Javadoc -->
         <module name="JavadocMethod">
@@ -206,10 +209,18 @@
             <property name="allowMissingReturnTag" value="false"/>
             <property name="severity" value="error"/>
         </module>
+        <module name="MissingJavadocMethod">
+            <property name="scope" value="private"/>
+            <property name="severity" value="error"/>
+        </module>
 
         <!-- Externally visible fields (public/protected) -->
         <module name="JavadocVariable">
             <property name="accessModifiers" value="package,protected,public"/>
+            <property name="severity" value="error"/>
+        </module>
+        
+        <module name="MissingJavadocPackage">
             <property name="severity" value="error"/>
         </module>
         
@@ -240,6 +251,10 @@
         <!-- Require qualification of fields: no bare 'field', must use this.field or other.field -->
         <module name="RequireThis">
             <property name="checkFields" value="true"/>
+            <property name="severity" value="error"/>
+        </module>
+        
+        <module name="RequireThis">
             <!-- Leave methods alone to match your rule:
                  only require this. on methods in certain contexts, which Checkstyle
                  can’t easily detect, so we keep method calls un-checked. -->
@@ -298,6 +313,26 @@
         <module name="UnusedLambdaParameterShouldBeUnnamed">
             <property name="severity" value="warning"/>
         </module>
+        
+        <module name="MissingDeprecated">
+            <property name="severity" value="warning"/>
+        </module>
+        
+        <module name="MissingOverride">
+            <property name="severity" value="error"/>
+        </module>
+        
+        <module name="SuppressWarnings">
+            <property name="format" value="^all$|^rawtypes$|^cast$"/>
+            <property name="tokens"
+                value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, ANNOTATION_DEF, ANNOTATION_FIELD_DEF, ENUM_CONSTANT_DEF, PARAMETER_DEF, VARIABLE_DEF, METHOD_DEF, CTOR_DEF, COMPACT_CTOR_DEF, RECORD_DEF, PATTERN_VARIABLE_DEF" />
+        </module>
+        <module name="SuppressWarnings">
+            <property name="format" value="^unchecked$"/>
+            <property name="tokens"
+                value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, ANNOTATION_DEF, METHOD_DEF, CTOR_DEF, COMPACT_CTOR_DEF, RECORD_DEF" />
+        </module>
+    
     </module>
     
 </module>
