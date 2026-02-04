@@ -1,6 +1,6 @@
 /* @formatter:off
  *
- * Copyright © 2016-2025 David M Rosenberg, The Software Toolsmith
+ * Copyright © 2025-2026 David M Rosenberg, The Software Toolsmith
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +20,9 @@
 
 package education.the_software_toolsmith.analyzer.incubator ;
 
-import static education.the_software_toolsmith.analyzer.framework.dynamicanalysis.TestingBase.* ;
+import education.the_software_toolsmith.analyzer.framework.static_analysis.tools.PathUtils ;
 
-import education.the_software_toolsmith.analyzer.framework.staticanalysis.tools.PathUtils ;
-
+import static education.the_software_toolsmith.analyzer.framework.dynamic_analysis.TestingBase.* ;
 import static education.the_software_toolsmith.analyzer.framework.utilities.SharedState.* ;
 import java.nio.file.Path ;
 import java.util.ArrayList ;

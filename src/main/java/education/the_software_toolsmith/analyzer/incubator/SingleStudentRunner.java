@@ -1,6 +1,6 @@
 /* @formatter:off
  *
- * Copyright © 2016-2025 David M Rosenberg, The Software Toolsmith
+ * Copyright © 2025-2026 David M Rosenberg, The Software Toolsmith
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,11 +20,11 @@
 
 package education.the_software_toolsmith.analyzer.incubator ;
 
-import static education.the_software_toolsmith.analyzer.framework.dynamicanalysis.TestingBase.* ;
-
 import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass ;
 
 import education.the_software_toolsmith.analyzer.framework.utilities.SharedState ;
+
+import static education.the_software_toolsmith.analyzer.framework.dynamic_analysis.TestingBase.* ;
 
 import org.junit.platform.launcher.Launcher ;
 import org.junit.platform.launcher.LauncherDiscoveryRequest ;
@@ -96,10 +96,10 @@ public final class SingleStudentRunner extends SharedState
 
     // Your tool mains:
     private static final String CHECKSTYLE_TOOL_FQCN
-            = "education.the_software_toolsmith.analyzer.framework.staticanalysis.compliance.ValidateCodingStyle" ;
+            = "education.the_software_toolsmith.analyzer.framework.static_analysis.compliance.ValidateCodingStyle" ;
 
     private static final String IMPL_TOOL_FQCN
-            = "education.the_software_toolsmith.analyzer.framework.staticanalysis.compliance.ValidateImplementation" ;
+            = "education.the_software_toolsmith.analyzer.framework.static_analysis.compliance.ValidateImplementation" ;
 
     // The compiled class output location (standard Maven):
     private static final Path CLASSES_OUT_REL = Paths.get( "target/classes" ) ;

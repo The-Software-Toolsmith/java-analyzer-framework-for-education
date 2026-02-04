@@ -20,14 +20,14 @@
 
 package education.the_software_toolsmith.analyzer_framework.dynamicanalysis.tests;
 
-import education.the_software_toolsmith.analyzer.framework.dynamicanalysis.TestingBase ;
-import education.the_software_toolsmith.analyzer.framework.dynamicanalysis.TestingException ;
+import education.the_software_toolsmith.analyzer.framework.dynamic_analysis.TestingBase ;
+import education.the_software_toolsmith.analyzer.framework.dynamic_analysis.TestingException ;
 
-import static education.the_software_toolsmith.analyzer.framework.dynamicanalysis.Reflection.* ;
-import static education.the_software_toolsmith.analyzer.framework.dynamicanalysis.ReflectReferenceTypes.* ;
-import static education.the_software_toolsmith.analyzer.framework.dynamicanalysis.ReflectDataFields.* ;
-import static education.the_software_toolsmith.analyzer.framework.dynamicanalysis.ReflectMethods.* ;
-import static education.the_software_toolsmith.analyzer.framework.dynamicanalysis.ReflectBackingStores.* ;
+import static education.the_software_toolsmith.analyzer.framework.dynamic_analysis.ReflectBackingStores.* ;
+import static education.the_software_toolsmith.analyzer.framework.dynamic_analysis.ReflectDataFields.* ;
+import static education.the_software_toolsmith.analyzer.framework.dynamic_analysis.ReflectMethods.* ;
+import static education.the_software_toolsmith.analyzer.framework.dynamic_analysis.ReflectReferenceTypes.* ;
+import static education.the_software_toolsmith.analyzer.framework.dynamic_analysis.Reflection.* ;
 
 import java.lang.annotation.Annotation ;
 import java.lang.reflect.Field ;

@@ -1,70 +1,107 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>education.the_software_toolsmith</groupId>
-  <artifactId>java-analyzer-framework</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>Java Analyzer Framework</name>
-  <description>This library provides tools to facilitate in-depth static and dynamic assessment of student projects with detailed feedback.  Student work is evaluated for correct results and compliance with coding standards and specifications.</description>
-  <packaging>jar</packaging>
-  
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>education.the-software-toolsmith</groupId>
+    <artifactId>java-analyzer-framework-for-education</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>Java Analyzer Framework (Education)</name>
+    <description>
+        This library provides tools to facilitate in-depth static and dynamic assessment of student projects with detailed feedback.
+        Student work is evaluated for correct results and compliance with coding standards and specifications.
+    </description>
+
+    <developers>
+        <developer>
+            <id>the-software-toolsmith</id>
+            <name>David M Rosenberg</name>
+            <email>Dave.Rosenberg@The-Software-Toolsmith.education</email>
+            <organization>The Software Toolsmith</organization>
+            <organizationUrl>https://github.com/The-Software-Toolsmith</organizationUrl>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <url>https://github.com/The-Software-Toolsmith/java-analyzer-framework-for-education</url>
+
+    <scm>
+        <url>https://github.com/The-Software-Toolsmith/java-analyzer-framework-for-education</url>
+        <connection>scm:git:https://github.com/The-Software-Toolsmith/java-analyzer-framework-for-education.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/The-Software-Toolsmith/java-analyzer-framework-for-education.git</developerConnection>
+    </scm>
+
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/The-Software-Toolsmith/java-analyzer-framework-for-education/issues</url>
+    </issueManagement>
+    
+    <packaging>jar</packaging>
+
+<!-- end of project/org metadata -->
+
     <properties>
-        <maven.compiler.source>25</maven.compiler.source>
-        <maven.compiler.target>25</maven.compiler.target>
+        <maven.compiler.release>25</maven.compiler.release>
     </properties>
 
     <build>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>
-          <configuration>
-            <release>25</release>
-          </configuration>
-        </plugin>
-        
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <version>3.5.4</version>
-            <dependencies>
-                <dependency>
-                    <groupId>org.junit.jupiter</groupId>
-                    <artifactId>junit-jupiter-engine</artifactId>
-                    <version>6.0.1</version>
-                </dependency>
-            </dependencies>
-        </plugin>
+                <configuration>
+                    <release>25</release>
+                </configuration>
+            </plugin>
 
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-source-plugin</artifactId>
-            <version>3.3.1</version>
-            <executions>
-                <execution>
-                    <id>attach-sources</id>
-                    <goals>
-                        <goal>jar</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.5.4</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.junit.jupiter</groupId>
+                        <artifactId>junit-jupiter-engine</artifactId>
+                        <version>6.0.1</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
 
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.12.0</version>
-            <executions>
-                <execution>
-                    <id>attach-javadocs</id>
-                    <goals>
-                        <goal>jar</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.12.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
 
             <plugin>
@@ -75,16 +112,16 @@
                     <mainClass>
                         education.the_software_toolsmith.analyzer.incubator.BatchRunner</mainClass>
 
-                  <!-- If BatchGradeLinkedBag is under src/test/java -->
-                   <classpathScope>test</classpathScope>
+                    <!-- If BatchGradeLinkedBag is under src/test/java -->
+                    <classpathScope>test</classpathScope>
                 </configuration>
             </plugin>
 
         </plugins>
 
     </build>
-    
-<!--
+
+    <!--
     <repositories>
 
         <repository>
@@ -98,12 +135,12 @@
     <dependencies>
 
         <!-- JUnit 5 API and engine -->
-<!--        <dependency>
+        <!--        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>6.0.1</version>
         </dependency>
--->        
+-->
         <!-- JUnit Jupiter (includes API + params + engine usage at test time) -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -113,11 +150,10 @@
         </dependency>
 
         <!-- Needed because your runner uses the Launcher API -->
-       <dependency>
+        <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-launcher</artifactId>
             <version>1.14.1</version>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -157,7 +193,7 @@
             <version>2.20.1</version>
         </dependency>
 
-<!--
+        <!--
         <dependency>
             <groupId>edu.wit.scds.ds</groupId>
             <artifactId>bags.adt.lab01</artifactId>
