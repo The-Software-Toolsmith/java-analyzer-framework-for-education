@@ -1,0 +1,71 @@
+<!-- /bom/pom.xml -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>education.the-software-toolsmith</groupId>
+    <artifactId>java-analyzer-framework-for-education-bom</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+
+    <name>Java Analyzer Framework (Education) BOM</name>
+    <description>
+        Version alignment (BOM) for java-analyzer-framework-for-education and related components.
+        Import this BOM to keep dependency versions synchronized.
+    </description>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- JUnit: single knob for all JUnit modules -->
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>6.0.2</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Libraries used by analyzers -->
+            <dependency>
+                <groupId>com.puppycrawl.tools</groupId>
+                <artifactId>checkstyle</artifactId>
+                <version>12.2.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.javaparser</groupId>
+                <artifactId>javaparser-symbol-solver-core</artifactId>
+                <version>3.27.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.javaparser</groupId>
+                <artifactId>javaparser-core-serialization</artifactId>
+                <version>3.27.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>jakarta.json</groupId>
+                <artifactId>jakarta.json-api</artifactId>
+                <version>2.1.3</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.parsson</groupId>
+                <artifactId>jakarta.json</artifactId>
+                <version>1.1.7</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>2.20.1</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+</project>
