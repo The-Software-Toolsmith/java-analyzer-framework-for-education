@@ -10,11 +10,11 @@ hs_err_pid*
 replay_pid*
 
 # Maven output
-/target/
-/test-logs/
-/surefire-reports/
-/jacoco.exec
-/test-results/
+**/target/
+**/test-logs/
+**/surefire-reports/
+**/jacoco.exec
+**/test-results/
 
 # Eclipse
 .project
@@ -37,6 +37,9 @@ replay_pid*
 *.tar.gz
 *.rar
 
+# Keep Maven Wrapper JAR
+!.mvn/wrapper/maven-wrapper.jar
+
 # BlueJ
 *.ctxt
 
@@ -44,9 +47,9 @@ replay_pid*
 .mtj.tmp/
 
 # development and testing only
-/parking lot/
-/to-grade/
-/config/lab-01/
+**/parking lot/
+**/to-grade/
+**/config/lab-01/
 
 # school stuff
-/edu/
+**/edu/
