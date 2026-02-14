@@ -5,5 +5,8 @@ before_install:
   - echo "Using Java version:"
   - java -version
 
+  - echo "Using Maven Wrapper:"
+  - bash ./mvnw -v
+
 install:
-  - mvn -B clean install -DskipTests=false
+  - bash ./mvnw -B clean install -DskipTests=false

@@ -1,23 +1,42 @@
 <!-- /bom/pom.xml -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>education.the-software-toolsmith</groupId>
-    <artifactId>java-analyzer-framework-for-education-bom</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <parent>
+        <groupId>education.the-software-toolsmith</groupId>
+        <artifactId>java-analyzer-framework-for-education-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
 
+    <artifactId>java-analyzer-framework-for-education-bom</artifactId>
+    <packaging>pom</packaging>
 
     <name>Java Analyzer Framework (Education) BOM</name>
     <description>
-        Version alignment (BOM) for java-analyzer-framework-for-education and related components.
+        Version alignment (BOM) for java-analyzer-framework-for-education and
+        related components.
         Import this BOM to keep dependency versions synchronized.
     </description>
 
     <dependencyManagement>
         <dependencies>
+
+            <!-- our framework and tools -->
+            <dependency>
+                <groupId>education.the-software-toolsmith</groupId>
+                <artifactId>java-analyzer-framework-for-education</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>education.the-software-toolsmith</groupId>
+                <artifactId>java-analyzer-tools-for-education</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
 
             <!-- JUnit: single knob for all JUnit modules -->
             <dependency>

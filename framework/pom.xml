@@ -1,7 +1,7 @@
 <!-- /framework/pom.xml -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -16,13 +16,30 @@
 
     <name>Java Analyzer Framework (Education)</name>
     <description>
-        Tools to facilitate in-depth static and dynamic assessment of student projects with detailed feedback.
-        Intended to be incorporated into analyzers run by the student (e.g., JUnit testing) or the instructor.
+        Tools to facilitate in-depth static and dynamic assessment of student
+        projects with detailed feedback.
+        Intended to be incorporated into analyzers run by the student (e.g.,
+        JUnit testing) or the instructor.
     </description>
+
+
+    <dependencyManagement>
+        <dependencies>
+
+            <dependency>
+                <groupId>education.the-software-toolsmith</groupId>
+                <artifactId>java-analyzer-framework-for-education-bom</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
 
     <dependencies>
 
-        <!-- Analyzer libs (versions come from BOM via parent import) -->
         <dependency>
             <groupId>com.puppycrawl.tools</groupId>
             <artifactId>checkstyle</artifactId>
@@ -57,13 +74,11 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <optional>true</optional>
         </dependency>
 
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-launcher</artifactId>
-            <optional>true</optional>
         </dependency>
 
         <!-- Framework's own tests -->

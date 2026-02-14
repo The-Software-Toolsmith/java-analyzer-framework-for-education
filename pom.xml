@@ -1,7 +1,7 @@
 <!-- /pom.xml (parent + aggregator) -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>education.the-software-toolsmith</groupId>
@@ -17,11 +17,14 @@
 
     <name>Java Analyzer Framework (Education)</name>
     <description>
-        This library provides tools to facilitate in-depth static and dynamic assessment of student projects with detailed feedback.
-        Student work is evaluated for correct results and compliance with coding standards and specifications.
+        This library provides tools to facilitate in-depth static and dynamic
+        assessment of student projects with detailed feedback.
+        Student work is evaluated for correct results and compliance with coding
+        standards and specifications.
     </description>
 
-    <url>https://github.com/The-Software-Toolsmith/java-analyzer-framework-for-education</url>
+    <url>
+        https://github.com/The-Software-Toolsmith/java-analyzer-framework-for-education</url>
 
     <developers>
         <developer>
@@ -42,14 +45,18 @@
     </licenses>
 
     <scm>
-        <url>https://github.com/The-Software-Toolsmith/java-analyzer-framework-for-education</url>
-        <connection>scm:git:https://github.com/The-Software-Toolsmith/java-analyzer-framework-for-education.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/The-Software-Toolsmith/java-analyzer-framework-for-education.git</developerConnection>
+        <url>
+            https://github.com/The-Software-Toolsmith/java-analyzer-framework-for-education</url>
+        <connection>
+            scm:git:https://github.com/The-Software-Toolsmith/java-analyzer-framework-for-education.git</connection>
+        <developerConnection>
+            scm:git:ssh://git@github.com/The-Software-Toolsmith/java-analyzer-framework-for-education.git</developerConnection>
     </scm>
 
     <issueManagement>
         <system>GitHub Issues</system>
-        <url>https://github.com/The-Software-Toolsmith/java-analyzer-framework-for-education/issues</url>
+        <url>
+            https://github.com/The-Software-Toolsmith/java-analyzer-framework-for-education/issues</url>
     </issueManagement>
 
     <properties>
@@ -66,18 +73,9 @@
         <exec.maven.plugin.version>3.5.0</exec.maven.plugin.version>
     </properties>
 
-    <!-- Import your BOM once, here, so child modules inherit version alignment -->
+
     <dependencyManagement>
         <dependencies>
-
-            <!-- import the BOM -->
-            <dependency>
-                <groupId>education.the-software-toolsmith</groupId>
-                <artifactId>java-analyzer-framework-for-education-bom</artifactId>
-                <version>${project.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
 
             <!-- manage reactor module versions (so tools can depend on
             framework w/out version) -->
@@ -96,9 +94,12 @@
         </dependencies>
     </dependencyManagement>
 
+
     <build>
+
         <!-- Define plugin versions/config once; children inherit -->
         <pluginManagement>
+
             <plugins>
 
                 <plugin>
@@ -155,7 +156,9 @@
                 </plugin>
 
             </plugins>
+
         </pluginManagement>
+
     </build>
 
 </project>

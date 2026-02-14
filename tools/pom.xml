@@ -1,7 +1,7 @@
 <!-- /tools/pom.xml -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -16,8 +16,25 @@
 
     <name>Java Analyzer Tools (Education)</name>
     <description>
-        Tools intended to be run by the instructor to evaluate student submissions.
+        Tools intended to be run by the instructor to evaluate student
+        submissions.
     </description>
+
+
+    <dependencyManagement>
+        <dependencies>
+
+            <dependency>
+                <groupId>education.the-software-toolsmith</groupId>
+                <artifactId>java-analyzer-framework-for-education-bom</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
 
     <dependencies>
 
@@ -27,7 +44,7 @@
             <artifactId>java-analyzer-framework-for-education</artifactId>
         </dependency>
 
-        <!-- Tools likely use the same libs; keep if they truly are referenced -->
+
         <dependency>
             <groupId>com.puppycrawl.tools</groupId>
             <artifactId>checkstyle</artifactId>
@@ -58,17 +75,16 @@
             <artifactId>jackson-databind</artifactId>
         </dependency>
 
+
         <!-- Only keep JUnit deps here if tools actually compile against them -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <optional>true</optional>
         </dependency>
 
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-launcher</artifactId>
-            <optional>true</optional>
         </dependency>
 
         <!-- Tools' own tests -->
@@ -80,6 +96,8 @@
 
     </dependencies>
 
+
+    <!--
     <build>
         <plugins>
             <plugin>
@@ -102,6 +120,6 @@
             </plugin>
         </plugins>
     </build>
-
+    -->
 
 </project>
