@@ -1,0 +1,9 @@
+jdk:
+  - openjdk25
+
+before_install:
+  - echo "Using Java version:"
+  - java -version
+
+install:
+  - mvn -B clean install -DskipTests=false
