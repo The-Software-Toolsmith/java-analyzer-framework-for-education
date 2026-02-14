@@ -1,0 +1,5 @@
+"last test?", "matches stub behavior?", "pass"
+false, false, "1"
+false, false, "2"
+false, false, "3"
+true, false, "4"

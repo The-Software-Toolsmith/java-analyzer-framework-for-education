@@ -1,0 +1,8 @@
+"last test?", "matches stub behavior?", "contents of initialContents", "1st pass", "2nd pass", "3rd pass", "4th pass"
+false, true, "", "", "", "", ""
+false, true, "1", "1", "1", "1", "1"
+false, false, "a | b", "b | a", "a | b", "b | a", "a | b" 
+false, false, "hello | shalom | hola", "shalom | hello | hola", "hello | shalom | hola", "shalom | hello | hola", "hello | shalom | hola"
+false, false, "'A' | 'B' | 'C' | 'D'", "'B' | 'D' | 'A' | 'C'", "'D' | 'C' | 'B' | 'A'", "'C' | 'A' | 'D' | 'B'", "'A' | 'B' | 'C' | 'D'"
+false, false, "1 | 2 | 3 | 4 | 5", "2 | 4 | 1 | 3 | 5", "4 | 3 | 2 | 1 | 5", "3 | 1 | 4 | 2 | 5", "1 | 2 | 3 | 4 | 5"
+true, false, "a | b | c | d | e | f", "e | d | a | f | c | b", "c | f | e | b | a | d", "a | b | c | d | e | f", "e | d | a | f | c | b"

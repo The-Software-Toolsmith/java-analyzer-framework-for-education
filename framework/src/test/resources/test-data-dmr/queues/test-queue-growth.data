@@ -1,0 +1,7 @@
+"last test?", "matches stub behavior?", "initial capacity description", "fill-to capacity description", "offset test?"
+false, true, "Small", "Medium", false
+false, false, "Small", "Medium", true
+false, true, "Default", "Large", false
+false, false, "Default", "Large", true
+false, true, "Large", "Maximum", false
+true, false, "Large", "Maximum", true

@@ -1,0 +1,7 @@
+"last test?", "matches stub behavior?", "initial capacity description"
+false, false, ""
+false, false, "Default"
+false, false, "Small"
+false, false, "Medium"
+false, false, "Large"
+true, false, "Maximum"

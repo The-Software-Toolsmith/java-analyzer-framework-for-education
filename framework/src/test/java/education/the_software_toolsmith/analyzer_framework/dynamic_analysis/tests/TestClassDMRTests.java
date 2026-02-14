@@ -18,7 +18,7 @@
  */
 
 
-package education.the_software_toolsmith.analyzer_framework.dynamic_analysis.tests;
+package education.the_software_toolsmith.analyzer_framework.dynamic_analysis.tests ;
 
 import education.the_software_toolsmith.analyzer.framework.dynamic_analysis.TestingBase ;
 import education.the_software_toolsmith.analyzer.framework.dynamic_analysis.TestingException ;
@@ -90,7 +90,7 @@ public class TestClassDMRTests extends TestingBase
         throws TestingException, ClassNotFoundException, Throwable
         {
 
-        TestClassDMRTests tcdmrt = new TestClassDMRTests( "education.the_software_toolsmith.testing.framework.tests",
+        TestClassDMRTests tcdmrt = new TestClassDMRTests( "education.the_software_toolsmith.analyzer_framework.dynamic_analysis.tests",
                                                           "TestClass" ) ;
 
 		// instantiate the test class

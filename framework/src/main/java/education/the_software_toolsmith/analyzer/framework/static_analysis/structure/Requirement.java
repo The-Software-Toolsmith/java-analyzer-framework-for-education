@@ -71,48 +71,60 @@ public class Requirement
     // common requirements
 
     /** rule: do not modify a method */
-    public final static Requirement DO_NOT_MODIFY_METHOD = new Requirement( DO_NOT_MODIFY, METHOD ) ;
+    public final static Requirement DO_NOT_MODIFY_METHOD = new Requirement( DO_NOT_MODIFY,
+                                                                            METHOD ) ;
     /** rule: do not delete a method */
-    public final static Requirement DO_NOT_DELETE_METHOD = new Requirement( DO_NOT_DELETE, METHOD ) ;
+    public final static Requirement DO_NOT_DELETE_METHOD = new Requirement( DO_NOT_DELETE,
+                                                                            METHOD ) ;
     /** rule: do not add a method */
-    public final static Requirement DO_NOT_ADD_METHOD = new Requirement( DO_NOT_ADD, METHOD ) ;
+    public final static Requirement DO_NOT_ADD_METHOD = new Requirement( DO_NOT_ADD,
+                                                                         METHOD ) ;
 
     /** rule: optionally modify a method */
-    public final static Requirement OPTIONALLY_MODIFY_METHOD = new Requirement( OPTIONALLY_MODIFY, METHOD ) ;
+    public final static Requirement OPTIONALLY_MODIFY_METHOD = new Requirement( OPTIONALLY_MODIFY,
+                                                                                METHOD ) ;
     /** rule: optionally delete a method */
-    public final static Requirement OPTIONALLY_DELETE_METHOD = new Requirement( OPTIONALLY_DELETE, METHOD ) ;
+    public final static Requirement OPTIONALLY_DELETE_METHOD = new Requirement( OPTIONALLY_DELETE,
+                                                                                METHOD ) ;
     /** rule: optionally add a method */
-    public final static Requirement OPTIONALLY_ADD_METHOD = new Requirement( OPTIONALLY_ADD, METHOD ) ;
+    public final static Requirement OPTIONALLY_ADD_METHOD = new Requirement( OPTIONALLY_ADD,
+                                                                             METHOD ) ;
 
     /** rule: do not modify a constructor */
-    public final static Requirement DO_NOT_MODIFY_CONSTRUCTOR
-            = new Requirement( DO_NOT_MODIFY, CONSTRUCTOR ) ;
+    public final static Requirement DO_NOT_MODIFY_CONSTRUCTOR = new Requirement( DO_NOT_MODIFY,
+                                                                                 CONSTRUCTOR ) ;
     /** rule: do not delete a constructor */
-    public final static Requirement DO_NOT_DELETE_CONSTRUCTOR
-            = new Requirement( DO_NOT_DELETE, CONSTRUCTOR ) ;
+    public final static Requirement DO_NOT_DELETE_CONSTRUCTOR = new Requirement( DO_NOT_DELETE,
+                                                                                 CONSTRUCTOR ) ;
     /** rule: do not add a constructor */
-    public final static Requirement DO_NOT_ADD_CONSTRUCTOR = new Requirement( DO_NOT_ADD, CONSTRUCTOR ) ;
+    public final static Requirement DO_NOT_ADD_CONSTRUCTOR = new Requirement( DO_NOT_ADD,
+                                                                              CONSTRUCTOR ) ;
 
     /** rule: optionally modify a constructor */
-    public final static Requirement OPTIONALLY_MODIFY_CONSTRUCTOR
-            = new Requirement( OPTIONALLY_MODIFY, CONSTRUCTOR ) ;
+    public final static Requirement OPTIONALLY_MODIFY_CONSTRUCTOR = new Requirement( OPTIONALLY_MODIFY,
+                                                                                     CONSTRUCTOR ) ;
     /** rule: optionally delete a constructor */
-    public final static Requirement OPTIONALLY_DELETE_CONSTRUCTOR
-            = new Requirement( OPTIONALLY_DELETE, CONSTRUCTOR ) ;
+    public final static Requirement OPTIONALLY_DELETE_CONSTRUCTOR = new Requirement( OPTIONALLY_DELETE,
+                                                                                     CONSTRUCTOR ) ;
     /** rule: optionally add a constructor */
-    public final static Requirement OPTIONALLY_ADD_CONSTRUCTOR
-            = new Requirement( OPTIONALLY_ADD, CONSTRUCTOR ) ;
+    public final static Requirement OPTIONALLY_ADD_CONSTRUCTOR = new Requirement( OPTIONALLY_ADD,
+                                                                                  CONSTRUCTOR ) ;
 
     /** rule: don't change anything */
-    public final static Requirement DO_LEAVE_EVERYTHING_AS_IS
-            = new Requirement( DO_LEAVE_AS_IS, GLOBALLY_APPLICABLE ) ;
+    public final static Requirement DO_LEAVE_EVERYTHING_AS_IS = new Requirement( DO_LEAVE_AS_IS,
+                                                                                 GLOBALLY_APPLICABLE ) ;
 
 
     /*
      * static fields
      */
+    
+    /** flag to control whether {@code toString()} includes the compliance */
     private static boolean includeComplianceInToString ;
+    /** flag to control whether {@code toString()} includes indentation */
     private static boolean indentInToString ;
+
+    /** set the flags to their initial/default setting */
     static
         {
         includeComplianceInToString = true ;
@@ -182,7 +194,10 @@ public class Requirement
                         final TargetType specifiedTargetType )
         {
 
-        this( new Behavior( specifiedRequirementType, specifiedAction ), specifiedTargetType, null ) ;
+        this( new Behavior( specifiedRequirementType,
+                            specifiedAction ),
+              specifiedTargetType,
+              null ) ;
 
         }   // end basic component constructor
 
@@ -206,7 +221,8 @@ public class Requirement
                         final String specifiedTarget )
         {
 
-        this( new Behavior( specifiedRequirementType, specifiedAction ),
+        this( new Behavior( specifiedRequirementType,
+                            specifiedAction ),
               specifiedTargetType,
               specifiedTarget ) ;
 
@@ -225,7 +241,9 @@ public class Requirement
                         final TargetType specifiedTargetType )
         {
 
-        this( specifiedBehavior, specifiedTargetType, null ) ;
+        this( specifiedBehavior,
+              specifiedTargetType,
+              null ) ;
 
         }   // end minimal constructor
 
@@ -245,7 +263,10 @@ public class Requirement
                         final String specifiedTarget )
         {
 
-        this( specifiedBehavior, specifiedTargetType, specifiedTarget, null ) ;
+        this( specifiedBehavior,
+              specifiedTargetType,
+              specifiedTarget,
+              null ) ;
 
         }   // end basic constructor
 
@@ -269,8 +290,10 @@ public class Requirement
                         @JsonProperty( "compliance" ) final ComplianceStatus initialCompliance )
         {
 
-        Objects.requireNonNull( specifiedBehavior, "behaves" ) ;
-        Objects.requireNonNull( specifiedTargetType, "typeOfTarget" ) ;
+        Objects.requireNonNull( specifiedBehavior,
+                                "behaves" ) ;
+        Objects.requireNonNull( specifiedTargetType,
+                                "typeOfTarget" ) ;
 
         // the 'what's
         this.behavior = specifiedBehavior ;
@@ -426,7 +449,8 @@ public class Requirement
     public Requirement setCompliance( final ComplianceStatus newCompliance )
         {
 
-        Objects.requireNonNull( newCompliance, "newCompliance" ) ;
+        Objects.requireNonNull( newCompliance,
+                                "newCompliance" ) ;
 
         this.complianceStatus = newCompliance ;
 
@@ -537,7 +561,9 @@ public class Requirement
     public int hashCode()
         {
 
-        return Objects.hash( this.behavior, this.targetType, this.target ) ;
+        return Objects.hash( this.behavior,
+                             this.targetType,
+                             this.target ) ;
 
         }   // end hashCode()
 
@@ -556,7 +582,8 @@ public class Requirement
                                       ? ""
                                       : " " + this.target,
                               includeComplianceInToString
-                                      ? String.format( " -> %s", this.complianceStatus )
+                                      ? String.format( " -> %s",
+                                                       this.complianceStatus )
                                       : "" ) ;
 
         }   // end toString()
@@ -731,11 +758,14 @@ public class Requirement
 
             for ( final Action action : Action.values() )
                 {
-                final Behavior behavior = new Behavior( typeOfRequirement, action ) ;
+                final Behavior behavior = new Behavior( typeOfRequirement,
+                                                        action ) ;
 
                 for ( final TargetType typeOfTarget : TargetType.values() )
                     {
-                    requirements.add( new Requirement( behavior, typeOfTarget, "xyzzy" ) ) ;
+                    requirements.add( new Requirement( behavior,
+                                                       typeOfTarget,
+                                                       "xyzzy" ) ) ;
                     }   // end for target type
 
                 }   // end for action
@@ -743,7 +773,10 @@ public class Requirement
             }   // end for requirement type
 
         // miscellaneous additional requirements
-        requirements.add( new Requirement( DO_LEAVE_AS_IS, GLOBALLY_APPLICABLE, null, PASSED ) ) ;
+        requirements.add( new Requirement( DO_LEAVE_AS_IS,
+                                           GLOBALLY_APPLICABLE,
+                                           null,
+                                           PASSED ) ) ;
 
         Behavior previousBehavior = requirements.getFirst().behavior ;
 
@@ -757,7 +790,8 @@ public class Requirement
                 previousBehavior = requirement.behavior ;
                 }
 
-            System.out.printf( "%s%n", requirement ) ;
+            System.out.printf( "%s%n",
+                               requirement ) ;
             }
 
         }    // end main()

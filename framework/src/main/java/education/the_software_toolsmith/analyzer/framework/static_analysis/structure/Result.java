@@ -18,9 +18,7 @@
  */
 
 
-package education.the_software_toolsmith.analyzer.framework.static_analysis.structure;
-
-import static education.the_software_toolsmith.analyzer.framework.static_analysis.structure.Action.* ;
+package education.the_software_toolsmith.analyzer.framework.static_analysis.structure ;
 
 import java.nio.file.Path ;
 import java.util.HashMap ;
@@ -35,37 +33,52 @@ import java.util.Map ;
  *
  * @version 1.0 2025-12-14 Initial implementation based on code from ChatGPT 5.2
  */
-@SuppressWarnings( "javadoc" )  // DMR FUTURE add Javadoc comments
 public class Result
     {
-    
-    // for 'callback'
+
+    /** for 'callback' */
     public final CodeStructureAnalyzer checker ;
 
+    /** paths to the source code we're reporting on */
     public final Map<CodeSourceCategory, Path> sourceCodePaths ;
+    /** the source code we analyzed */
     public final Map<CodeSourceCategory, List<String>> sourceCode ;
-    public final Map<CodeSourceCategory, Map<MethodKey, MethodInfo>> methods ; 
-    
-    // map method signatures to method keys
+    /** the methods and constructors we encountered */
+    public final Map<CodeSourceCategory, Map<MethodKey, MethodInfo>> methods ;
+
+    /** map method signatures to method keys */
     public final Map<CodeSourceCategory, Map<String, MethodKey>> methodKeys ;
 
+    /** expected changes for each action */
     public final Map<Action, List<MethodKey>> expectedChanges ;
+    /** actual changes for each action */
     public final Map<Action, List<MethodKey>> actualChanges ;
 
-    // method signatures
+    /** signatures of methods that passed inspection */
     public final List<String> passedInspection ;
+    /** signatures of methods that failed inspection */
     public final List<String> failedInspection ;
+    /** signatures of methods that weren't inspected */
     public final List<String> notInspected ;
 
+    /** number of tests executed */
     public int testCount ;
+    /** number of tests that succeeded */
     public int testsPassed ;
 
+    /** textual report contents */
     public StringBuilder report ;
 
 
+    /**
+     * set initial state to valid empty
+     *
+     * @param complianceChecker
+     *     reference for callback to the analyzer that instantiated this
+     */
     public Result( final CodeStructureAnalyzer complianceChecker )
         {
-        
+
         this.checker = complianceChecker ;
 
         this.sourceCodePaths = new HashMap<>() ;
@@ -73,22 +86,18 @@ public class Result
         this.methods = new HashMap<>() ;
         this.methodKeys = new HashMap<>() ;
 
-        
+
         this.expectedChanges = new HashMap<>() ;
-
-        this.expectedChanges.put( ADD, new LinkedList<>() ) ;
-        this.expectedChanges.put( MODIFY, new LinkedList<>() ) ;
-        this.expectedChanges.put( DELETE, new LinkedList<>() ) ;
-        this.expectedChanges.put( LEAVE_AS_IS, new LinkedList<>() ) ;
-
-        
         this.actualChanges = new HashMap<>() ;
 
-        this.actualChanges.put( ADD, new LinkedList<>() ) ;
-        this.actualChanges.put( MODIFY, new LinkedList<>() ) ;
-        this.actualChanges.put( DELETE, new LinkedList<>() ) ;
-        this.actualChanges.put( LEAVE_AS_IS, new LinkedList<>() ) ;
-        
+        for ( final Action action : Action.values() )
+            {
+            this.expectedChanges.put( action,
+                                      new LinkedList<>() ) ;
+            this.actualChanges.put( action,
+                                    new LinkedList<>() ) ;
+            }
+
         this.passedInspection = new LinkedList<>() ;
         this.failedInspection = new LinkedList<>() ;
         this.notInspected = new LinkedList<>() ;
@@ -109,14 +118,24 @@ public class Result
 
         for ( final String methodSignature : this.passedInspection )
             {
-            methodsThatPassed.append( String.format( "\t%s%n", methodSignature ) ) ;
+            methodsThatPassed.append( String.format( "\t%s%n",
+                                                     methodSignature ) ) ;
             }
 
         final StringBuilder methodsThatFailed = new StringBuilder() ;
 
         for ( final String methodSignature : this.failedInspection )
             {
-            methodsThatFailed.append( String.format( "\t%s%n", methodSignature ) ) ;
+            methodsThatFailed.append( String.format( "\t%s%n",
+                                                     methodSignature ) ) ;
+            }
+
+        final StringBuilder methodsNotInspected = new StringBuilder() ;
+
+        for ( final String methodSignature : this.notInspected )
+            {
+            methodsNotInspected.append( String.format( "\t%s%n",
+                                                       methodSignature ) ) ;
             }
 
         return String.format( """
@@ -130,6 +149,10 @@ public class Result
                               %s
 
                               Failed:
+
+                              %s
+
+                              Not Checked:
 
                               %s
 
@@ -151,9 +174,13 @@ public class Result
                               this.failedInspection.size() == 0
                                       ? "	none"
                                       : methodsThatFailed.toString(),
+                              this.notInspected.size() == 0
+                                      ? "	none"
+                                      : methodsNotInspected.toString(),
                               this.testsPassed == 0
                                       ? "no"
-                                      : String.format( "%,d", this.testsPassed ),
+                                      : String.format( "%,d",
+                                                       this.testsPassed ),
                               this.testsPassed == 1
                                       ? ""
                                       : "s",

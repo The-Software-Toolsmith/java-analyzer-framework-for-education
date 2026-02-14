@@ -82,7 +82,9 @@ public final class CodeStructureAnalyzer extends SharedState
      */
     
 
+    /** simple name of the class to inspect */
     public final String classToAssess ;
+    /** the starting directory to look for the class */
     public final String baseSearchLocation ;
 
     /** path to the starter project/assignment code */
@@ -121,12 +123,14 @@ public final class CodeStructureAnalyzer extends SharedState
      *     starting location for the implementations
      */
     public CodeStructureAnalyzer( final String specifiedClassName,
-                                            final String specifiedBaseSearchLocation )
+                                  final String specifiedBaseSearchLocation )
         {
 
-        this( specifiedClassName, specifiedBaseSearchLocation, new LinkedHashMap<>() ) ;
+        this( specifiedClassName,
+              specifiedBaseSearchLocation,
+              new LinkedHashMap<>() ) ;
 
-        }   // end constructor
+        }   // end 2-arg constructor
 
 
     /**
@@ -140,8 +144,8 @@ public final class CodeStructureAnalyzer extends SharedState
      *     map of method signature -> list of implementation requirements
      */
     public CodeStructureAnalyzer( final String specifiedClassName,
-                                            final String specifiedBaseSearchLocation,
-                                            final Map<String, List<Requirement>> methodRequirements )
+                                  final String specifiedBaseSearchLocation,
+                                  final Map<String, List<Requirement>> methodRequirements )
         {
 
         this.classToAssess = specifiedClassName ;
@@ -160,7 +164,7 @@ public final class CodeStructureAnalyzer extends SharedState
 
         this.requirementsForEachMethod = methodRequirements ;
 
-        }   // end constructor
+        }   // end full/3-arg constructor
 
 
     /**
