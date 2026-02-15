@@ -35,17 +35,17 @@ import java.util.List ;
  *
  * @version 1.0 2025-07-19
  *     <ul>
- *     <li>Initial implementation - extracted from framework's
- *     {@link Reflection}
- *     <li>add {@code xxxDataset()} equivalents of {@code xxxCollect()} to ease
- *     transition to new names with other classes
+ *     <li>Initial implementation - extracted from framework's {@link Reflection} v1.7
+ *     <li>add {@code xxxDataset()} equivalents of {@code xxxCollect()} to ease transition to new names with
+ *     other classes
  *     </ul>
  * @version 1.1 2025-09-29
  *     <ul>
- *     <li>restore {@code xxxCollection()} named methods as pass-throughs so
- *     existing tests don't have to be modified immediately     IN_PROCESS
+ *     <li>restore {@code xxxCollection()} named methods as pass-throughs so existing tests don't have to be
+ *     modified immediately IN_PROCESS
  *     <li>undo reversing '==' and '!=' comparisons
  *     </ul>
+ * @version 1.2 2026-02-14 relax the deprecation from for removal true to false
  */
 public class ReflectBackingStores
     {
@@ -325,7 +325,7 @@ public class ReflectBackingStores
      * @deprecated Use {@link #getContentsOfArrayBackedDataset(Object,String)}
      *     instead
      */
-    @Deprecated( forRemoval = true, since = "1.0" )
+    @Deprecated( since = "1.0", forRemoval = false )
     public static Object[] getContentsOfArrayBackedCollection( final Object collectionToCopy,
                                                                final String backingStoreFieldName )
         {
@@ -378,7 +378,7 @@ public class ReflectBackingStores
      *
      * @deprecated Use {@link #getContentsOfArrayBackedDataset(Object,String,String,int)} instead
      */
-    @Deprecated( forRemoval = true, since = "1.0" )
+    @Deprecated( since = "1.0", forRemoval = false )
     public static Object[] getContentsOfArrayBackedCollection( final Object collectionToCopy,
                                                                final String backingStoreFieldName,
                                                                final String entryCountFieldName,
@@ -511,7 +511,7 @@ public class ReflectBackingStores
      *
      * @deprecated Use {@link #getContentsOfCircularArrayBackedDataset(Object,String)} instead
      */
-    @Deprecated( forRemoval = true, since = "1.0" )
+    @Deprecated( since = "1.0", forRemoval = false )
     public static Object[] getContentsOfCircularArrayBackedCollection(
                                                                        final Object collectionToCopy,
                                                                        final String backingStoreFieldName )
@@ -575,7 +575,7 @@ public class ReflectBackingStores
      *     {@link #getContentsOfCircularArrayBackedDataset(Object,String,String,String,String,int)}
      *     instead
      */
-    @Deprecated( forRemoval = true, since = "1.0" )
+    @Deprecated( since = "1.0", forRemoval = false )
     public static Object[] getContentsOfCircularArrayBackedCollection(
                                                                        final Object collectionToCopy,
                                                                        final String backingStoreFieldName,
@@ -845,7 +845,7 @@ public class ReflectBackingStores
      * @return array of the contents of {@code collectionToCopy} or {@code null} if
      *     {@code collectionToCopy} is {@code null}
      */
-    @Deprecated( forRemoval = true, since = "1.7" )
+    @Deprecated( since = "1.7", forRemoval = false )
     public static Object[] getContentsOfChainBackedCollection(
                                                                final Object collectionToCopy )
         {
@@ -867,7 +867,7 @@ public class ReflectBackingStores
      * @return array of the contents of {@code collectionToCopy} or {@code null} if
      *     {@code collectionToCopy} is {@code null}
      */
-    @Deprecated( forRemoval = true, since = "1.7" )
+    @Deprecated( since = "1.7", forRemoval = false )
     public static Object[] getContentsOfChainBackedCollection(
                                                                final Object collectionToCopy,
                                                                final String backingStoreFieldName )
@@ -908,7 +908,7 @@ public class ReflectBackingStores
      * @deprecated Use
      *     {@link #getContentsOfChainBackedDataset(Object,String,String,int,String,String)} instead
      */
-    @Deprecated( forRemoval = true, since = "1.0" )
+    @Deprecated( since = "1.0", forRemoval = false )
     public static Object[] getContentsOfChainBackedCollection(
                                                                final Object collectionToCopy,
                                                                final String backingStoreFieldName,
