@@ -51,5 +51,8 @@ replay_pid*
 **/to-grade/
 **/config/lab-01/
 
+# miscellaneous
+**/archive/
+
 # school stuff
 **/edu/
