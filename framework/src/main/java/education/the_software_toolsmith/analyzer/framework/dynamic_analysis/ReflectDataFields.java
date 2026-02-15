@@ -41,8 +41,6 @@ public class ReflectDataFields
 
     /**
      * prevent instantiation
-     *
-     * @since 1.0
      */
     private ReflectDataFields()
         {
@@ -196,8 +194,6 @@ public class ReflectDataFields
      *
      * @throws TestingException
      *     wraps the caught throwable
-     *
-     * @since 1.0
      */
     private static void reportFieldAccessFailure( final Throwable thrown,
                                                   final String accessType,

@@ -342,7 +342,7 @@ public class TestData
 
         switch ( item )
             {
-
+            // REPORT_BUG no space after comma and not wrapping
             case final String _ -> useDelimiter = stringDelimiter ;
             case final Character _ -> useDelimiter = charDelimiter ;
             case final Long _,final Integer _,final Short _,final Byte _ -> conversionSpecifier = "%,d" ;
