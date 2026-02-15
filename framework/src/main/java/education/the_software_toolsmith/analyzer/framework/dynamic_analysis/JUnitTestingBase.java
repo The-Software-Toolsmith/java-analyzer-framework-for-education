@@ -66,8 +66,8 @@ import org.junit.jupiter.api.TestInstance.Lifecycle ;
  *     <ul>
  *     <li>cleanup comments
  *     <li>enhance null argument handling
- *     <li>in parseArguments(): correct numeric range bounds parsing; add support for data-supplied
- *     step, repeating group count, duplicate count
+ *     <li>in parseArguments(): correct numeric range bounds parsing; add support for data-supplied step,
+ *     repeating group count, duplicate count
  *     <li>output formatting adjustments to improve alignment and readability
  *     <li>add PlaceholderException to support specific Exception detection
  *     <li>add support for detection and display of boolean/Boolean and char/Character types
@@ -83,26 +83,24 @@ import org.junit.jupiter.api.TestInstance.Lifecycle ;
  *     <li>consolidate/simplify field access methods
  *     <li>add collection retrieval methods
  *     </ul>
- * @version 6.0 2020-09-13 Split into general unit testing support and JUnit-specific support - this
- *     class implements the former.
+ * @version 6.0 2020-09-13 Split into general unit testing support and JUnit-specific support - this class
+ *     implements the former.
  * @version 6.0.1 2021-06-19
  *     <ul>
- *     <li>reflect move of other classes from {@code ...testing.junit} package to {@code ...testing}
- *     package
+ *     <li>reflect move of other classes from {@code ...testing.junit} package to {@code ...testing} package
  *     <li>switch to fully object-oriented (eliminate static variables)
  *     <li>move per-class setup to {@code TestingBase} constructor
  *     </ul>
- * @version 6.1 2021-06-21 overload {@code TestingBase}'s {@code startTest} methods to handle first
- *     argument ({@code TestInfo testInfo} for backward compatibility
+ * @version 6.1 2021-06-21 overload {@code TestingBase}'s {@code startTest} methods to handle first argument
+ *     ({@code TestInfo testInfo} for backward compatibility
  * @version 6.2 2021-11-18 enhance stub behavior determination
- * @version 6.3 2023-10-19 switch direct access to {@code SecurityManager}, which is deprecated as
- *     of Java 17, to use utility methods in {@code TestingBase}
+ * @version 6.3 2023-10-19 switch direct access to {@code SecurityManager}, which is deprecated as of Java 17,
+ *     to use utility methods in {@code TestingBase}
  * @version 7.0 2025-07-18
  *     <ul>
- *     <li>swap operands to '==' and '!=' when comparing against a constant so the constant is the
- *     left operand
- *     <li>rename {@code xxxEachTest()} to {@code xxxTest()} for greater consistency with class
- *     methods
+ *     <li>swap operands to '==' and '!=' when comparing against a constant so the constant is the left
+ *     operand
+ *     <li>rename {@code xxxEachTest()} to {@code xxxTest()} for greater consistency with class methods
  *     <li>keep {@code xxxEachTest()} as deprecated, temporary pass-throughs
  *     </ul>
  * @version 7.0.1 2025-07-29 remove deprecated methods - they were executing twice
@@ -114,7 +112,8 @@ import org.junit.jupiter.api.TestInstance.Lifecycle ;
  */
 @DisplayName( "JUnit Testing Base" )
 @TestInstance( Lifecycle.PER_CLASS )
-public class JUnitTestingBase extends TestingBase
+public class JUnitTestingBase
+        extends TestingBase
     {
 
     /**
@@ -127,7 +126,8 @@ public class JUnitTestingBase extends TestingBase
                                 final String specifiedTestClassSimpleName )
         {
 
-        super( specifiedTestClassPackageName, specifiedTestClassSimpleName ) ;
+        super( specifiedTestClassPackageName,
+               specifiedTestClassSimpleName ) ;
 
         }   // end 2-arg constructor
 
@@ -139,10 +139,10 @@ public class JUnitTestingBase extends TestingBase
     @BeforeAll
     protected void setUpBeforeClass( final TestInfo testInfo )
         {
-        
-//        enableDebugging() ;	// DEBUG
 
-        }	// end setUpBeforeClass()
+//        enableDebugging() ;   // DEBUG
+
+        }    // end setUpBeforeClass()
 
 
     /**
@@ -158,13 +158,18 @@ public class JUnitTestingBase extends TestingBase
 
         if ( colonColonIndex != -1 )
             {
-            baseName = baseName.substring( 0, colonColonIndex ).trim() ;
+
+            baseName = baseName.substring( 0,
+                                           colonColonIndex )
+                               .trim() ;
+
             }
 
-        super.stubBehaviorTag = "" ;	// assume not a stub behavior
+        super.stubBehaviorTag = "" ;    // assume not a stub behavior
 
-        if ( !super.currentTestGroupName.equals( baseName ) )
+        if ( ! super.currentTestGroupName.equals( baseName ) )
             {
+
             // count this test group
             super.currentTestGroup++ ;
             super.currentTestGroupName = baseName ;
@@ -186,12 +191,13 @@ public class JUnitTestingBase extends TestingBase
             writeConsole( "%n[%,2d] Starting tests of %s%n%n",
                           super.currentTestGroup,
                           super.currentTestGroupName ) ;
+
             }
 
         // reset test passed flag
         super.currentTestPassed = false ;
 
-        }	// end setUpBeforeEachTest()
+        }    // end setUpBeforeEachTest()
 
 
     /**
@@ -205,24 +211,30 @@ public class JUnitTestingBase extends TestingBase
         // display summary results
         if ( super.totalTestsAttempted > 0 )
             {
+
             writeConsole( "%n\tSummary Test Results%n%n" ) ;
 
             for ( final String testResult : super.summaryTestResults )
                 {
-                writeConsole( "%s%n", testResult ) ;
+
+                writeConsole( "%s%n",
+                              testResult ) ;
+
                 }
 
             writeConsole( "%n\tSuccessfully completed %,3d of %,3d tests (%3d%%) attempted for class %s%n",
                           super.totalTestsSucceeded,
                           super.totalTestsAttempted,
-                          ( super.totalTestsSucceeded * 100 ) /
-                                                     super.totalTestsAttempted,
+                          ( super.totalTestsSucceeded * 100 ) / super.totalTestsAttempted,
                           testInfo.getDisplayName() ) ;
+
             }
         else
             {
+
             writeConsole( "%n\tNo tests attempted for class %s%n",
                           testInfo.getDisplayName() ) ;
+
             }
 
         // close the detailed log
@@ -234,7 +246,7 @@ public class JUnitTestingBase extends TestingBase
         // restore the saved security manager
         enableExit() ;
 
-        }	// end tearDownAfterClass()
+        }    // end tearDownAfterClass()
 
 
     /**
@@ -247,11 +259,15 @@ public class JUnitTestingBase extends TestingBase
 
         if ( super.currentTestPassed )
             {
+
             testPassed() ;
+
             }
         else
             {
+
             testFailed() ;
+
             }
 
         if ( super.lastTestInGroupIsRunning )
@@ -259,32 +275,32 @@ public class JUnitTestingBase extends TestingBase
             // display stats for this test group
 
             // filter for stubbed return values
-            if ( ( super.stubBehaviorSeenCount > 0 ) &&
-                 ( super.nonStubTestsPassed == 0 ) )
+            if ( ( super.stubBehaviorSeenCount > 0 ) && ( super.nonStubTestsPassed == 0 ) )
                 {
-                // only saw correct responses which matched the stub values
-                // consider this a total failure rather than a (misleading)
-                // correct percentage
+
+                // only saw correct responses which matched the stub values - consider this a total failure
+                // rather than a (misleading) correct percentage
                 writeConsole( "[%,2d] The only tests which passed matched stub behaviors - ignoring them (%,2d)%n",
                               super.currentTestGroup,
                               super.stubBehaviorSeenCount ) ;
 
-                super.currentTestsSucceeded = 0 ;	// clear the success count
+                super.currentTestsSucceeded = 0 ;   // clear the success count
+
                 }
 
-            final String testSummary = String.format( "[%,2d] Successfully completed %,3d of %,3d tests (%3d%%) of %s",
-                                                      super.currentTestGroup,
-                                                      super.currentTestsSucceeded,
-                                                      super.currentTestsAttempted,
-                                                      ( 0 ==
-                                                        super.currentTestsAttempted
-                                                            ? 0
-                                                            : ( super.currentTestsSucceeded *
-                                                                100 ) /
-                                                              super.currentTestsAttempted ),
-                                                      super.currentTestGroupName ) ;
+            final String testSummary
+                    = String.format( "[%,2d] Successfully completed %,3d of %,3d tests (%3d%%) of %s",
+                                     super.currentTestGroup,
+                                     super.currentTestsSucceeded,
+                                     super.currentTestsAttempted,
+                                     ( 0 == super.currentTestsAttempted
+                                             ? 0
+                                             : ( super.currentTestsSucceeded * 100 )
+                                               / super.currentTestsAttempted ),
+                                     super.currentTestGroupName ) ;
             super.summaryTestResults.add( testSummary ) ;
-            writeConsole( "%s%n%n----------%n", testSummary ) ;
+            writeConsole( "%s%n%n----------%n",
+                          testSummary ) ;
 
             // accumulate this test group's results
             super.totalTestsAttempted += super.currentTestsAttempted ;
@@ -293,14 +309,15 @@ public class JUnitTestingBase extends TestingBase
             // reset current test counters
             super.currentTestsAttempted = 0 ;
             super.currentTestsSucceeded = 0 ;
+
             }
 
-        }	// end tearDownAfterEachTest()
+        }   // end tearDownAfterEachTest()
 
 
     /**
-     * Utility to pre-process test parameters - pass-through to method that takes argument labels -
-     * for backward compatibility.
+     * Utility to pre-process test parameters - pass-through to method that takes argument labels - for
+     * backward compatibility.
      *
      * @param testInfo
      *     info about the test - ignored
@@ -357,4 +374,4 @@ public class JUnitTestingBase extends TestingBase
 
         }   // end startTest() pass-through
 
-    }	// end class JUnitTestingBase
+    }   // end class JUnitTestingBase

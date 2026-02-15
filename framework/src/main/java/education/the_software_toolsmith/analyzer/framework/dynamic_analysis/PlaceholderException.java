@@ -27,7 +27,8 @@ package education.the_software_toolsmith.analyzer.framework.dynamic_analysis ;
  *
  * @version 1.0 2025-02-12 Initial implementation
  */
-public class PlaceholderException extends RuntimeException
+public class PlaceholderException
+        extends RuntimeException
     {
 
     /**
@@ -66,7 +67,7 @@ public class PlaceholderException extends RuntimeException
 
     /**
      * constructor with cause
-     * 
+     *
      * @param cause
      *     the 'wrapped' exception
      */
@@ -80,16 +81,18 @@ public class PlaceholderException extends RuntimeException
 
     /**
      * constructor with cause and message
-     * 
+     *
      * @param message
      *     descriptive message related to the {@code cause}
      * @param cause
      *     the 'wrapped' exception
      */
-    public PlaceholderException( final String message, final Throwable cause )
+    public PlaceholderException( final String message,
+                                 final Throwable cause )
         {
 
-        super( message, cause ) ;
+        super( message,
+               cause ) ;
 
         }   // end constructor with cause and descriptive message
 

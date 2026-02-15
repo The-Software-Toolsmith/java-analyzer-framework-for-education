@@ -27,7 +27,8 @@ package education.the_software_toolsmith.analyzer.framework.dynamic_analysis ;
  *
  * @version 1.0 2025-06-14 Initial implementation
  */
-public class LoopDetectedException extends RuntimeException
+public class LoopDetectedException
+        extends RuntimeException
     {
 
     /**
@@ -86,10 +87,12 @@ public class LoopDetectedException extends RuntimeException
      * @param cause
      *     the 'wrapped' exception
      */
-    public LoopDetectedException( final String message, final Throwable cause )
+    public LoopDetectedException( final String message,
+                                  final Throwable cause )
         {
 
-        super( message, cause ) ;
+        super( message,
+               cause ) ;
 
         }   // end 'wrapper' constructor with descriptive message
 

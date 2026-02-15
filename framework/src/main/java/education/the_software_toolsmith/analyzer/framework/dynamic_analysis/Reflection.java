@@ -31,8 +31,8 @@ import java.util.Map ;
  * @author Dave Rosenberg
  *
  * @version 1.0 2020-08-08 Initial implementation - extracted from DMRJUnitTestsBase.java
- * @version 1.1 2020-09-13 enhance {@code invoke()} to check both defined and generic parameter
- *     types when searching for a matching method
+ * @version 1.1 2020-09-13 enhance {@code invoke()} to check both defined and generic parameter types when
+ *     searching for a matching method
  * @version 1.2 2020-10-19 add circular array retrieval
  * @version 1.3 2021-04-11 repackage as canned utility testing suite
  * @version 1.4 2021-04-18
@@ -54,8 +54,8 @@ import java.util.Map ;
  *     <li>add {@code getChainAsArray()} and {@code getChainAsList()}
  *     <li>deprecate {@code getContentsOfChainBackedCollection()}
  *     </ul>
- * @version 1.7.1 2025-07-18 swap operands to '==' and '!=' when comparing against a constant so the
- *     constant is the left operand
+ * @version 1.7.1 2025-07-18 swap operands to '==' and '!=' when comparing against a constant so the constant
+ *     is the left operand
  * @version 2.0 2025-07-19 move all other specialized functionality to separate classes
  */
 public class Reflection
@@ -99,15 +99,19 @@ public class Reflection
 
         if ( isArray( field ) )
             {
+
             dimensions++ ;
 
-            Class<?> type = field.getType().getComponentType() ;
+            Class<?> type = field.getType()
+                                 .getComponentType() ;
 
             while ( isArray( type ) )
                 {
+
                 dimensions++ ;
 
                 type = type.getComponentType() ;
+
                 }
 
             }
@@ -136,7 +140,9 @@ public class Reflection
 
         while ( isArray( type ) )
             {
+
             type = type.getComponentType() ;
+
             }
 
         return type ;
@@ -221,15 +227,16 @@ public class Reflection
     public static boolean isClassReference( final Field field )
         {
 
-        return typeOf( field ).toString().startsWith( "class" ) ;
+        return typeOf( field ).toString()
+                              .startsWith( "class" ) ;
 
         }   // end isClassReference()
 
 
     /**
-     * Determine if a field (instance or class variable) is of a class reference type which is a
-     * collection ({@code implements java.util.Collection} or is a subclass of a class which does)
-     * or is a Map (not a subclass of Collection)
+     * Determine if a field (instance or class variable) is of a class reference type which is a collection
+     * ({@code implements java.util.Collection} or is a subclass of a class which does) or is a Map (not a
+     * subclass of Collection)
      *
      * @param field
      *     the field to test
@@ -306,13 +313,16 @@ public class Reflection
     public static boolean isStatic( final Field field )
         {
 
-        final String[] parts = field.toGenericString().split( " " ) ;
+        final String[] parts = field.toGenericString()
+                                    .split( " " ) ;
         return switch ( parts[ 0 ] )
             {
-            case "private", "protected", "public"
-                -> "static".equals( parts[ 1 ] ) ;
-            default
-                -> "static".equals( parts[ 0 ] ) ;
+
+            case "private",
+                 "protected",
+                 "public" -> "static".equals( parts[ 1 ] ) ;
+            default -> "static".equals( parts[ 0 ] ) ;
+
             } ;
 
         }   // end isStatic()
@@ -333,12 +343,16 @@ public class Reflection
 
         while ( type.isArray() )
             {
+
             type = type.getComponentType() ;
+
             }
 
-        if ( !type.isPrimitive() )
+        if ( ! type.isPrimitive() )
             {
+
             type = null ;
+
             }
 
         return type ;
@@ -361,11 +375,16 @@ public class Reflection
 
         if ( isArray( field ) )
             {
-            type = field.getType().getComponentType() ;
+
+            type = field.getType()
+                        .getComponentType() ;
+
             }
         else
             {
+
             type = field.getType() ;
+
             }
 
         return type ;
@@ -384,13 +403,16 @@ public class Reflection
     public static String visibilityOf( final Field field )
         {
 
-        final String[] parts = field.toGenericString().split( " " ) ;
+        final String[] parts = field.toGenericString()
+                                    .split( " " ) ;
         return switch ( parts[ 0 ] )
             {
-            case "private", "protected", "public"
-                -> parts[ 0 ] ;
-            default
-                -> "package" ;
+
+            case "private",
+                 "protected",
+                 "public" -> parts[ 0 ] ;
+            default -> "package" ;
+
             } ;
 
         }   // end visibilityOf()

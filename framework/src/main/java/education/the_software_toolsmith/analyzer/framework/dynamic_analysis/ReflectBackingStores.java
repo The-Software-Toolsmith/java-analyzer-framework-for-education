@@ -20,7 +20,8 @@
 
 package education.the_software_toolsmith.analyzer.framework.dynamic_analysis ;
 
-import static education.the_software_toolsmith.analyzer.framework.dynamic_analysis.ReflectDataFields.* ;
+import static education.the_software_toolsmith.analyzer.framework.dynamic_analysis.ReflectDataFields.getIntField ;
+import static education.the_software_toolsmith.analyzer.framework.dynamic_analysis.ReflectDataFields.getReferenceField ;
 
 import java.util.ArrayList ;
 import java.util.Arrays ;
@@ -70,8 +71,8 @@ public class ReflectBackingStores
     /**
      * retrieve the contents of a chain, retaining the order of the entries
      * <p>
-     * convenience method for all-arg {@code getChainAsList()} with default values for the data and
-     * next field names and circular chain and skip nulls flags
+     * convenience method for all-arg {@code getChainAsList()} with default values for the data and next field
+     * names and circular chain and skip nulls flags
      *
      * @param startNode
      *     reference to the beginning of the chain
@@ -91,8 +92,8 @@ public class ReflectBackingStores
     /**
      * retrieve the contents of a chain, retaining the order of the entries
      * <p>
-     * convenience method for all-arg {@code getChainAsList()} with default values for the circular
-     * chain and skip nulls flags
+     * convenience method for all-arg {@code getChainAsList()} with default values for the circular chain and
+     * skip nulls flags
      *
      * @param startNode
      *     reference to the beginning of the chain
@@ -127,12 +128,11 @@ public class ReflectBackingStores
      * @param nextFieldNameArg
      *     name of the next reference
      * @param circularChainArg
-     *     {@code true} indicates that the chain is expected to loop back on itself; {@code false}
-     *     indicates that a loop is a corrupted chain
+     *     {@code true} indicates that the chain is expected to loop back on itself; {@code false} indicates
+     *     that a loop is a corrupted chain
      * @param skipNullsArg
-     *     {@code true} indicates that {@code null} data in the chain should be skipped;
-     *     {@code false} indicates that {@code null} data should be included in the returned
-     *     contents
+     *     {@code true} indicates that {@code null} data in the chain should be skipped; {@code false}
+     *     indicates that {@code null} data should be included in the returned contents
      *
      * @return contents the data from the chain
      *
@@ -157,8 +157,8 @@ public class ReflectBackingStores
     /**
      * retrieve the contents of a chain, retaining the order of the entries
      * <p>
-     * convenience method for all-arg {@code getChainAsList()} with default values for the data and
-     * next field names and circular chain and skip nulls flags
+     * convenience method for all-arg {@code getChainAsList()} with default values for the data and next field
+     * names and circular chain and skip nulls flags
      *
      * @param startNode
      *     reference to the beginning of the chain
@@ -170,7 +170,11 @@ public class ReflectBackingStores
     public static List<?> getChainAsList( final Object startNode )
         {
 
-        return getChainAsList( startNode, null, null, null, null ) ;
+        return getChainAsList( startNode,
+                               null,
+                               null,
+                               null,
+                               null ) ;
 
         }   // end 1-arg getChainAsList()
 
@@ -178,8 +182,8 @@ public class ReflectBackingStores
     /**
      * retrieve the contents of a chain, retaining the order of the entries
      * <p>
-     * convenience method for all-arg {@code getChainAsList()} with default values for the circular
-     * chain and skip nulls flags
+     * convenience method for all-arg {@code getChainAsList()} with default values for the circular chain and
+     * skip nulls flags
      *
      * @param startNode
      *     reference to the beginning of the chain
@@ -217,12 +221,11 @@ public class ReflectBackingStores
      * @param nextFieldNameArg
      *     name of the next reference
      * @param circularChainArg
-     *     {@code true} indicates that the chain is expected to loop back on itself; {@code false}
-     *     indicates that a loop is a corrupted chain
+     *     {@code true} indicates that the chain is expected to loop back on itself; {@code false} indicates
+     *     that a loop is a corrupted chain
      * @param skipNullsArg
-     *     {@code true} indicates that {@code null} data in the chain should be skipped;
-     *     {@code false} indicates that {@code null} data should be included in the returned
-     *     contents
+     *     {@code true} indicates that {@code null} data in the chain should be skipped; {@code false}
+     *     indicates that {@code null} data should be included in the returned contents
      *
      * @return contents the data from the chain
      *
@@ -241,8 +244,10 @@ public class ReflectBackingStores
         // if no starting node, return the empty list
         if ( startNode == null )
             {
+
             // ArrayList provides best space complexity and fastest positional retrieval
             return new ArrayList<>( contentsList ) ;
+
             }
 
         // assertion: we have a chain to process
@@ -250,21 +255,21 @@ public class ReflectBackingStores
         // set up - handle omitted (null) arguments
 
         final String dataFieldName = ( dataFieldNameArg != null )
-            ? dataFieldNameArg
-            : "data" ;
+                ? dataFieldNameArg
+                : "data" ;
 
         final String nextFieldName = ( nextFieldNameArg != null )
-            ? nextFieldNameArg
-            : "next" ;
+                ? nextFieldNameArg
+                : "next" ;
 
 
         final boolean circularChain = ( circularChainArg == null )
-            ? false
-            : circularChainArg ;
+                ? false
+                : circularChainArg ;
 
         final boolean skipNulls = ( skipNullsArg == null )
-            ? false
-            : skipNullsArg ;
+                ? false
+                : skipNullsArg ;
 
 
         // for loop detection
@@ -278,17 +283,25 @@ public class ReflectBackingStores
             {
 
             // loop detection
-            if ( !nodesVisited.add( currentNode ) )
+            if ( ! nodesVisited.add( currentNode ) )
                 {
 
                 // terminal condition - expected if circular
                 if ( circularChain )
                     {
+                    // @formatter:off
+                    // ENHANCEMENT circular implies loops back to first node
+                    // ENHANCEMENT retain reference to first node
+                    // ENHANCEMENT switch-selectable behavior?
+                    // @formatter:on
+
                     break ;
+
                     }
 
                 // corrupted chain - has a loop but is not circular
                 throw new LoopDetectedException() ;
+
                 }
 
             // no loop (yet) - save the data from the current node
@@ -296,13 +309,17 @@ public class ReflectBackingStores
                                                            dataFieldName ) ;
 
             // either have non-null contents or include null as valid data
-            if ( ( contentsItem != null ) || !skipNulls )
+            if ( ( contentsItem != null ) || ! skipNulls )
                 {
+
                 contentsList.add( contentsItem ) ;
+
                 }
 
             // move to the next node
-            currentNode = getReferenceField( currentNode, nextFieldName ) ;
+            currentNode = getReferenceField( currentNode,
+                                             nextFieldName ) ;
+
             }
 
         // ArrayList provides best space complexity and fastest positional retrieval
@@ -319,18 +336,18 @@ public class ReflectBackingStores
      * @param backingStoreFieldName
      *     field name of the collection's backing store
      *
-     * @return array of the contents of {@code collectionToCopy} or {@code null}
-     *     if {@code collectionToCopy} is {@code null}
+     * @return array of the contents of {@code collectionToCopy} or {@code null} if {@code collectionToCopy}
+     *     is {@code null}
      *
-     * @deprecated Use {@link #getContentsOfArrayBackedDataset(Object,String)}
-     *     instead
+     * @deprecated Use {@link #getContentsOfArrayBackedDataset(Object,String)} instead
      */
     @Deprecated( since = "1.0", forRemoval = false )
     public static Object[] getContentsOfArrayBackedCollection( final Object collectionToCopy,
                                                                final String backingStoreFieldName )
         {
 
-        return getContentsOfArrayBackedDataset( collectionToCopy, backingStoreFieldName ) ;
+        return getContentsOfArrayBackedDataset( collectionToCopy,
+                                                backingStoreFieldName ) ;
 
         }   // end getContentsOfArrayBackedCollection() pass-through
 
@@ -343,8 +360,8 @@ public class ReflectBackingStores
      * @param backingStoreFieldName
      *     field name of the collection's backing store
      *
-     * @return array of the contents of {@code collectionToCopy} or {@code null} if
-     *     {@code collectionToCopy} is {@code null}
+     * @return array of the contents of {@code collectionToCopy} or {@code null} if {@code collectionToCopy}
+     *     is {@code null}
      */
     public static Object[] getContentsOfArrayBackedDataset( final Object collectionToCopy,
                                                             final String backingStoreFieldName )
@@ -370,8 +387,8 @@ public class ReflectBackingStores
      * @param entryCount
      *     expected number of entries in the collection - only used if non-negative
      *
-     * @return array of the contents of {@code collectionToCopy} or {@code null} if
-     *     {@code collectionToCopy} is {@code null}
+     * @return array of the contents of {@code collectionToCopy} or {@code null} if {@code collectionToCopy}
+     *     is {@code null}
      *
      * @throws TestingException
      *     any wrapped exceptions which may be thrown by reflection
@@ -406,18 +423,17 @@ public class ReflectBackingStores
      * @param entryCount
      *     expected number of entries in the collection - only used if non-negative
      *
-     * @return array of the contents of {@code collectionToCopy} or {@code null} if
-     *     {@code collectionToCopy} is {@code null}
+     * @return array of the contents of {@code collectionToCopy} or {@code null} if {@code collectionToCopy}
+     *     is {@code null}
      *
      * @throws TestingException
      *     any wrapped exceptions which may be thrown by reflection
      */
-    public static Object[] getContentsOfArrayBackedDataset(
-                                                            final Object collectionToCopy,
+    public static Object[] getContentsOfArrayBackedDataset( final Object collectionToCopy,
                                                             final String backingStoreFieldName,
                                                             String entryCountFieldName,
                                                             int entryCount )
-        throws TestingException
+            throws TestingException
         {
 
         Object[] collectionContents = null ;
@@ -428,7 +444,9 @@ public class ReflectBackingStores
             // handle optional parameters
             if ( entryCountFieldName == null )
                 {
+
                 entryCountFieldName = "numberOfEntries" ;
+
                 }
 
             // get current entry count from the collection if not provided
@@ -437,28 +455,35 @@ public class ReflectBackingStores
 
                 try
                     {
+
                     entryCount = getIntField( collectionToCopy,
                                               entryCountFieldName ) ;
+
                     }
-                catch ( IllegalArgumentException | SecurityException e )
+                catch ( IllegalArgumentException
+                        | SecurityException e )
                     {
+
                     final String exceptionClassName = e.getClass()
                                                        .getSimpleName() ;
 
-                    final String errorMessage = String.format( "Failed to retrieve entry count from class %s, field %s, instance %s: %s%s%s",
-                                                               collectionToCopy.getClass()
-                                                                               .getSimpleName(),
-                                                               entryCountFieldName,
-                                                               collectionToCopy.toString(),
-                                                               exceptionClassName,
-                                                               ( e.getMessage() == null
-                                                                     ? ""
-                                                                     : ": " ),
-                                                               ( e.getMessage() == null
-                                                                     ? ""
-                                                                     : e.getMessage() ) ) ;
+                    final String errorMessage
+                            = String.format( "Failed to retrieve entry count from class %s, field %s, instance %s: %s%s%s",
+                                             collectionToCopy.getClass()
+                                                             .getSimpleName(),
+                                             entryCountFieldName,
+                                             collectionToCopy.toString(),
+                                             exceptionClassName,
+                                             ( e.getMessage() == null
+                                                     ? ""
+                                                     : ": " ),
+                                             ( e.getMessage() == null
+                                                     ? ""
+                                                     : e.getMessage() ) ) ;
 
-                    throw new TestingException( errorMessage, e ) ;
+                    throw new TestingException( errorMessage,
+                                                e ) ;
+
                     }
 
                 }
@@ -466,29 +491,36 @@ public class ReflectBackingStores
             // collect the contents of the collection
             try
                 {
+
                 collectionContents = Arrays.copyOf( (Object[]) getReferenceField( collectionToCopy,
                                                                                   backingStoreFieldName ),
                                                     entryCount ) ;
+
                 }
-            catch ( IllegalArgumentException | SecurityException ex )
+            catch ( IllegalArgumentException
+                    | SecurityException ex )
                 {
+
                 final String exceptionClassName = ex.getClass()
                                                     .getSimpleName() ;
 
-                final String errorMessage = String.format( "Failed to retrieve backing array from class %s, field %s, instance %s: %s%s%s",
-                                                           collectionToCopy.getClass()
-                                                                           .getSimpleName(),
-                                                           backingStoreFieldName,
-                                                           collectionToCopy.toString(),
-                                                           exceptionClassName,
-                                                           ( ex.getMessage() == null
-                                                                 ? ""
-                                                                 : ": " ),
-                                                           ( ex.getMessage() == null
-                                                                 ? ""
-                                                                 : ex.getMessage() ) ) ;
+                final String errorMessage
+                        = String.format( "Failed to retrieve backing array from class %s, field %s, instance %s: %s%s%s",
+                                         collectionToCopy.getClass()
+                                                         .getSimpleName(),
+                                         backingStoreFieldName,
+                                         collectionToCopy.toString(),
+                                         exceptionClassName,
+                                         ( ex.getMessage() == null
+                                                 ? ""
+                                                 : ": " ),
+                                         ( ex.getMessage() == null
+                                                 ? ""
+                                                 : ex.getMessage() ) ) ;
 
-                throw new TestingException( errorMessage, ex ) ;
+                throw new TestingException( errorMessage,
+                                            ex ) ;
+
                 }
 
             }
@@ -506,14 +538,13 @@ public class ReflectBackingStores
      * @param backingStoreFieldName
      *     field name of the collection's backing store
      *
-     * @return array of the contents of {@code collectionToCopy} or {@code null} if
-     *     {@code collectionToCopy} is {@code null}
+     * @return array of the contents of {@code collectionToCopy} or {@code null} if {@code collectionToCopy}
+     *     is {@code null}
      *
      * @deprecated Use {@link #getContentsOfCircularArrayBackedDataset(Object,String)} instead
      */
     @Deprecated( since = "1.0", forRemoval = false )
-    public static Object[] getContentsOfCircularArrayBackedCollection(
-                                                                       final Object collectionToCopy,
+    public static Object[] getContentsOfCircularArrayBackedCollection( final Object collectionToCopy,
                                                                        final String backingStoreFieldName )
         {
 
@@ -531,11 +562,10 @@ public class ReflectBackingStores
      * @param backingStoreFieldName
      *     field name of the collection's backing store
      *
-     * @return array of the contents of {@code collectionToCopy} or {@code null} if
-     *     {@code collectionToCopy} is {@code null}
+     * @return array of the contents of {@code collectionToCopy} or {@code null} if {@code collectionToCopy}
+     *     is {@code null}
      */
-    public static Object[] getContentsOfCircularArrayBackedDataset(
-                                                                    final Object collectionToCopy,
+    public static Object[] getContentsOfCircularArrayBackedDataset( final Object collectionToCopy,
                                                                     final String backingStoreFieldName )
         {
 
@@ -565,25 +595,23 @@ public class ReflectBackingStores
      * @param entryCount
      *     expected number of entries in the collection - only used if non-negative
      *
-     * @return array of the contents of {@code collectionToCopy} or {@code null} if
-     *     {@code collectionToCopy} is {@code null}
+     * @return array of the contents of {@code collectionToCopy} or {@code null} if {@code collectionToCopy}
+     *     is {@code null}
      *
      * @throws TestingException
      *     any wrapped exceptions which may be thrown by reflection
      *
      * @deprecated Use
-     *     {@link #getContentsOfCircularArrayBackedDataset(Object,String,String,String,String,int)}
-     *     instead
+     *     {@link #getContentsOfCircularArrayBackedDataset(Object,String,String,String,String,int)} instead
      */
     @Deprecated( since = "1.0", forRemoval = false )
-    public static Object[] getContentsOfCircularArrayBackedCollection(
-                                                                       final Object collectionToCopy,
+    public static Object[] getContentsOfCircularArrayBackedCollection( final Object collectionToCopy,
                                                                        final String backingStoreFieldName,
                                                                        final String frontIndexFieldName,
                                                                        final String backIndexFieldName,
                                                                        final String entryCountFieldName,
                                                                        final int entryCount )
-        throws TestingException
+            throws TestingException
         {
 
         return getContentsOfCircularArrayBackedDataset( collectionToCopy,
@@ -612,20 +640,19 @@ public class ReflectBackingStores
      * @param entryCount
      *     expected number of entries in the collection - only used if non-negative
      *
-     * @return array of the contents of {@code collectionToCopy} or {@code null} if
-     *     {@code collectionToCopy} is {@code null}
+     * @return array of the contents of {@code collectionToCopy} or {@code null} if {@code collectionToCopy}
+     *     is {@code null}
      *
      * @throws TestingException
      *     any wrapped exceptions which may be thrown by reflection
      */
-    public static Object[] getContentsOfCircularArrayBackedDataset(
-                                                                    final Object collectionToCopy,
+    public static Object[] getContentsOfCircularArrayBackedDataset( final Object collectionToCopy,
                                                                     final String backingStoreFieldName,
                                                                     String frontIndexFieldName,
                                                                     String backIndexFieldName,
                                                                     String entryCountFieldName,
                                                                     int entryCount )
-        throws TestingException
+            throws TestingException
         {
 
         Object[] collectionContents = null ;
@@ -636,17 +663,23 @@ public class ReflectBackingStores
             // handle optional parameters
             if ( entryCountFieldName == null )
                 {
+
                 entryCountFieldName = "numberOfEntries" ;
+
                 }
 
             if ( frontIndexFieldName == null )
                 {
+
                 frontIndexFieldName = "frontIndex" ;
+
                 }
 
             if ( null == backIndexFieldName )
                 {
+
                 backIndexFieldName = "backIndex" ;
+
                 }
 
             // get current entry count from the collection if not provided
@@ -655,28 +688,35 @@ public class ReflectBackingStores
 
                 try
                     {
+
                     entryCount = getIntField( collectionToCopy,
                                               entryCountFieldName ) ;
+
                     }
-                catch ( IllegalArgumentException | SecurityException e )
+                catch ( IllegalArgumentException
+                        | SecurityException e )
                     {
+
                     final String exceptionClassName = e.getClass()
                                                        .getSimpleName() ;
 
-                    final String errorMessage = String.format( "Failed to retrieve entry count from class %s, field %s, instance %s: %s%s%s",
-                                                               collectionToCopy.getClass()
-                                                                               .getSimpleName(),
-                                                               entryCountFieldName,
-                                                               collectionToCopy.toString(),
-                                                               exceptionClassName,
-                                                               ( e.getMessage() == null
-                                                                     ? ""
-                                                                     : ": " ),
-                                                               ( e.getMessage() == null
-                                                                     ? ""
-                                                                     : e.getMessage() ) ) ;
+                    final String errorMessage
+                            = String.format( "Failed to retrieve entry count from class %s, field %s, instance %s: %s%s%s",
+                                             collectionToCopy.getClass()
+                                                             .getSimpleName(),
+                                             entryCountFieldName,
+                                             collectionToCopy.toString(),
+                                             exceptionClassName,
+                                             ( e.getMessage() == null
+                                                     ? ""
+                                                     : ": " ),
+                                             ( e.getMessage() == null
+                                                     ? ""
+                                                     : e.getMessage() ) ) ;
 
-                    throw new TestingException( errorMessage, e ) ;
+                    throw new TestingException( errorMessage,
+                                                e ) ;
+
                     }
 
                 }
@@ -685,27 +725,35 @@ public class ReflectBackingStores
 
             try
                 {
+
                 frontIndex = getIntField( collectionToCopy,
                                           frontIndexFieldName ) ;
+
                 }
-            catch ( IllegalArgumentException | SecurityException e )
+            catch ( IllegalArgumentException
+                    | SecurityException e )
                 {
-                final String exceptionClassName = e.getClass().getSimpleName() ;
 
-                final String errorMessage = String.format( "Failed to retrieve front index from class %s, field %s, instance %s: %s%s%s",
-                                                           collectionToCopy.getClass()
-                                                                           .getSimpleName(),
-                                                           frontIndexFieldName,
-                                                           collectionToCopy.toString(),
-                                                           exceptionClassName,
-                                                           ( e.getMessage() == null
-                                                                 ? ""
-                                                                 : ": " ),
-                                                           ( e.getMessage() == null
-                                                                 ? ""
-                                                                 : e.getMessage() ) ) ;
+                final String exceptionClassName = e.getClass()
+                                                   .getSimpleName() ;
 
-                throw new TestingException( errorMessage, e ) ;
+                final String errorMessage
+                        = String.format( "Failed to retrieve front index from class %s, field %s, instance %s: %s%s%s",
+                                         collectionToCopy.getClass()
+                                                         .getSimpleName(),
+                                         frontIndexFieldName,
+                                         collectionToCopy.toString(),
+                                         exceptionClassName,
+                                         ( e.getMessage() == null
+                                                 ? ""
+                                                 : ": " ),
+                                         ( e.getMessage() == null
+                                                 ? ""
+                                                 : e.getMessage() ) ) ;
+
+                throw new TestingException( errorMessage,
+                                            e ) ;
+
                 }
 
             @SuppressWarnings( "unused" )
@@ -713,64 +761,82 @@ public class ReflectBackingStores
 
             try
                 {
+
                 backIndex = getIntField( collectionToCopy,
                                          backIndexFieldName ) ;
+
                 }
-            catch ( IllegalArgumentException | SecurityException e )
+            catch ( IllegalArgumentException
+                    | SecurityException e )
                 {
-                final String exceptionClassName = e.getClass().getSimpleName() ;
 
-                final String errorMessage = String.format( "Failed to retrieve back index from class %s, field %s, instance %s: %s%s%s",
-                                                           collectionToCopy.getClass()
-                                                                           .getSimpleName(),
-                                                           backIndexFieldName,
-                                                           collectionToCopy.toString(),
-                                                           exceptionClassName,
-                                                           ( e.getMessage() == null
-                                                                 ? ""
-                                                                 : ": " ),
-                                                           ( e.getMessage() == null
-                                                                 ? ""
-                                                                 : e.getMessage() ) ) ;
+                final String exceptionClassName = e.getClass()
+                                                   .getSimpleName() ;
 
-                throw new TestingException( errorMessage, e ) ;
+                final String errorMessage
+                        = String.format( "Failed to retrieve back index from class %s, field %s, instance %s: %s%s%s",
+                                         collectionToCopy.getClass()
+                                                         .getSimpleName(),
+                                         backIndexFieldName,
+                                         collectionToCopy.toString(),
+                                         exceptionClassName,
+                                         ( e.getMessage() == null
+                                                 ? ""
+                                                 : ": " ),
+                                         ( e.getMessage() == null
+                                                 ? ""
+                                                 : e.getMessage() ) ) ;
+
+                throw new TestingException( errorMessage,
+                                            e ) ;
+
                 }
 
             Object[] backingStoreArray ;
 
             try
                 {
+
                 backingStoreArray = (Object[]) getReferenceField( collectionToCopy,
                                                                   backingStoreFieldName ) ;
+
                 }
-            catch ( IllegalArgumentException | SecurityException e )
+            catch ( IllegalArgumentException
+                    | SecurityException e )
                 {
-                final String exceptionClassName = e.getClass().getSimpleName() ;
 
-                final String errorMessage = String.format( "Failed to retrieve backing store array from class %s, field %s, instance %s: %s%s%s",
-                                                           collectionToCopy.getClass()
-                                                                           .getSimpleName(),
-                                                           backingStoreFieldName,
-                                                           collectionToCopy.toString(),
-                                                           exceptionClassName,
-                                                           ( e.getMessage() == null
-                                                                 ? ""
-                                                                 : ": " ),
-                                                           ( e.getMessage() == null
-                                                                 ? ""
-                                                                 : e.getMessage() ) ) ;
+                final String exceptionClassName = e.getClass()
+                                                   .getSimpleName() ;
 
-                throw new TestingException( errorMessage, e ) ;
+                final String errorMessage
+                        = String.format( "Failed to retrieve backing store array from class %s, field %s, instance %s: %s%s%s",
+                                         collectionToCopy.getClass()
+                                                         .getSimpleName(),
+                                         backingStoreFieldName,
+                                         collectionToCopy.toString(),
+                                         exceptionClassName,
+                                         ( e.getMessage() == null
+                                                 ? ""
+                                                 : ": " ),
+                                         ( e.getMessage() == null
+                                                 ? ""
+                                                 : e.getMessage() ) ) ;
+
+                throw new TestingException( errorMessage,
+                                            e ) ;
+
                 }
 
             // collect the contents of the collection
             try
                 {
+
                 // instantiate an array sized according to the entry count
                 collectionContents = new Object[ entryCount ] ;
 
                 if ( entryCount > 0 )
                     {
+
                     // copy the front elements
                     System.arraycopy( backingStoreArray,            // from
                                       frontIndex,
@@ -785,48 +851,58 @@ public class ReflectBackingStores
                                       collectionContents,           // to
                                       backingStoreArray.length - frontIndex,
                                       frontIndex ) ;                // how many elements
+
                     }
 
                 }
-            catch ( IllegalArgumentException | SecurityException ex )
+            catch ( IllegalArgumentException
+                    | SecurityException ex )
                 {
+
                 final String exceptionClassName = ex.getClass()
                                                     .getSimpleName() ;
 
-                final String errorMessage = String.format( "Failed to retrieve backing array from class %s, field %s, instance %s: %s%s%s",
-                                                           collectionToCopy.getClass()
-                                                                           .getSimpleName(),
-                                                           backingStoreFieldName,
-                                                           collectionToCopy.toString(),
-                                                           exceptionClassName,
-                                                           ( ex.getMessage() == null
-                                                                 ? ""
-                                                                 : ": " ),
-                                                           ( ex.getMessage() == null
-                                                                 ? ""
-                                                                 : ex.getMessage() ) ) ;
+                final String errorMessage
+                        = String.format( "Failed to retrieve backing array from class %s, field %s, instance %s: %s%s%s",
+                                         collectionToCopy.getClass()
+                                                         .getSimpleName(),
+                                         backingStoreFieldName,
+                                         collectionToCopy.toString(),
+                                         exceptionClassName,
+                                         ( ex.getMessage() == null
+                                                 ? ""
+                                                 : ": " ),
+                                         ( ex.getMessage() == null
+                                                 ? ""
+                                                 : ex.getMessage() ) ) ;
 
-                throw new TestingException( errorMessage, ex ) ;
+                throw new TestingException( errorMessage,
+                                            ex ) ;
+
                 }
             catch ( final ArrayIndexOutOfBoundsException ex )
                 {
+
                 final String exceptionClassName = ex.getClass()
                                                     .getSimpleName() ;
 
-                final String errorMessage = String.format( "Failed to retrieve backing array from class %s, field %s, instance %s: inconsistent instance state: %s%s%s",
-                                                           collectionToCopy.getClass()
-                                                                           .getSimpleName(),
-                                                           backingStoreFieldName,
-                                                           collectionToCopy.toString(),
-                                                           exceptionClassName,
-                                                           ( ex.getMessage() == null
-                                                                 ? ""
-                                                                 : ": " ),
-                                                           ( ex.getMessage() == null
-                                                                 ? ""
-                                                                 : ex.getMessage() ) ) ;
+                final String errorMessage
+                        = String.format( "Failed to retrieve backing array from class %s, field %s, instance %s: inconsistent instance state: %s%s%s",
+                                         collectionToCopy.getClass()
+                                                         .getSimpleName(),
+                                         backingStoreFieldName,
+                                         collectionToCopy.toString(),
+                                         exceptionClassName,
+                                         ( ex.getMessage() == null
+                                                 ? ""
+                                                 : ": " ),
+                                         ( ex.getMessage() == null
+                                                 ? ""
+                                                 : ex.getMessage() ) ) ;
 
-                throw new TestingException( errorMessage, ex ) ;
+                throw new TestingException( errorMessage,
+                                            ex ) ;
+
                 }
 
             }
@@ -842,12 +918,11 @@ public class ReflectBackingStores
      * @param collectionToCopy
      *     the collection to copy
      *
-     * @return array of the contents of {@code collectionToCopy} or {@code null} if
-     *     {@code collectionToCopy} is {@code null}
+     * @return array of the contents of {@code collectionToCopy} or {@code null} if {@code collectionToCopy}
+     *     is {@code null}
      */
     @Deprecated( since = "1.7", forRemoval = false )
-    public static Object[] getContentsOfChainBackedCollection(
-                                                               final Object collectionToCopy )
+    public static Object[] getContentsOfChainBackedCollection( final Object collectionToCopy )
         {
 
         return getContentsOfChainBackedCollection( collectionToCopy,
@@ -864,12 +939,11 @@ public class ReflectBackingStores
      * @param backingStoreFieldName
      *     field name of the collection's backing store
      *
-     * @return array of the contents of {@code collectionToCopy} or {@code null} if
-     *     {@code collectionToCopy} is {@code null}
+     * @return array of the contents of {@code collectionToCopy} or {@code null} if {@code collectionToCopy}
+     *     is {@code null}
      */
     @Deprecated( since = "1.7", forRemoval = false )
-    public static Object[] getContentsOfChainBackedCollection(
-                                                               final Object collectionToCopy,
+    public static Object[] getContentsOfChainBackedCollection( final Object collectionToCopy,
                                                                final String backingStoreFieldName )
         {
 
@@ -899,24 +973,23 @@ public class ReflectBackingStores
      * @param nodeNextFieldName
      *     field name of the collection's node's next reference (optional - defaults to "next")
      *
-     * @return array of the contents of {@code collectionToCopy} or {@code null} if
-     *     {@code collectionToCopy} is {@code null}
+     * @return array of the contents of {@code collectionToCopy} or {@code null} if {@code collectionToCopy}
+     *     is {@code null}
      *
      * @throws TestingException
      *     any wrapped exceptions which may be thrown by reflection
      *
-     * @deprecated Use
-     *     {@link #getContentsOfChainBackedDataset(Object,String,String,int,String,String)} instead
+     * @deprecated Use {@link #getContentsOfChainBackedDataset(Object,String,String,int,String,String)}
+     *     instead
      */
     @Deprecated( since = "1.0", forRemoval = false )
-    public static Object[] getContentsOfChainBackedCollection(
-                                                               final Object collectionToCopy,
+    public static Object[] getContentsOfChainBackedCollection( final Object collectionToCopy,
                                                                final String backingStoreFieldName,
                                                                final String entryCountFieldName,
                                                                final int entryCount,
                                                                final String nodeDataFieldName,
                                                                final String nodeNextFieldName )
-        throws TestingException
+            throws TestingException
         {
 
         return getContentsOfChainBackedDataset( collectionToCopy,
@@ -937,20 +1010,16 @@ public class ReflectBackingStores
      * @param backingStoreFieldName
      *     field name of the collection's backing store
      * @param entryCountFieldName
-     *     field name of the collection's entry count (optional - defaults to
-     *     "numberOfEntries")
+     *     field name of the collection's entry count (optional - defaults to "numberOfEntries")
      * @param entryCount
-     *     expected number of entries in the collection - only used if
-     *     non-negative
+     *     expected number of entries in the collection - only used if non-negative
      * @param nodeDataFieldName
-     *     field name of the collection's node's data reference (optional -
-     *     defaults to "data")
+     *     field name of the collection's node's data reference (optional - defaults to "data")
      * @param nodeNextFieldName
-     *     field name of the collection's node's next reference (optional -
-     *     defaults to "next")
+     *     field name of the collection's node's next reference (optional - defaults to "next")
      *
-     * @return array of the contents of {@code collectionToCopy} or {@code null}
-     *     if {@code collectionToCopy} is {@code null}
+     * @return array of the contents of {@code collectionToCopy} or {@code null} if {@code collectionToCopy}
+     *     is {@code null}
      *
      * @throws TestingException
      *     any wrapped exceptions which may be thrown by reflection
@@ -972,17 +1041,23 @@ public class ReflectBackingStores
             // handle optional parameters
             if ( entryCountFieldName == null )
                 {
+
                 entryCountFieldName = "numberOfEntries" ;
+
                 }
 
             if ( nodeDataFieldName == null )
                 {
+
                 nodeDataFieldName = "data" ;
+
                 }
 
             if ( nodeNextFieldName == null )
                 {
+
                 nodeNextFieldName = "next" ;
+
                 }
 
             // get current entry count from the collection if not provided
@@ -991,28 +1066,35 @@ public class ReflectBackingStores
 
                 try
                     {
+
                     entryCount = getIntField( collectionToCopy,
                                               entryCountFieldName ) ;
+
                     }
-                catch ( IllegalArgumentException | SecurityException e )
+                catch ( IllegalArgumentException
+                        | SecurityException e )
                     {
+
                     final String exceptionClassName = e.getClass()
                                                        .getSimpleName() ;
 
-                    final String errorMessage = String.format( "Failed to retrieve entry count from class %s, field %s, instance %s: %s%s%s",
-                                                               collectionToCopy.getClass()
-                                                                               .getSimpleName(),
-                                                               entryCountFieldName,
-                                                               collectionToCopy.toString(),
-                                                               exceptionClassName,
-                                                               ( e.getMessage() == null
-                                                                     ? ""
-                                                                     : ": " ),
-                                                               ( e.getMessage() == null
-                                                                     ? ""
-                                                                     : e.getMessage() ) ) ;
+                    final String errorMessage
+                            = String.format( "Failed to retrieve entry count from class %s, field %s, instance %s: %s%s%s",
+                                             collectionToCopy.getClass()
+                                                             .getSimpleName(),
+                                             entryCountFieldName,
+                                             collectionToCopy.toString(),
+                                             exceptionClassName,
+                                             ( e.getMessage() == null
+                                                     ? ""
+                                                     : ": " ),
+                                             ( e.getMessage() == null
+                                                     ? ""
+                                                     : e.getMessage() ) ) ;
 
-                    throw new TestingException( errorMessage, e ) ;
+                    throw new TestingException( errorMessage,
+                                                e ) ;
+
                     }
 
                 }
@@ -1023,6 +1105,7 @@ public class ReflectBackingStores
             // collect the contents of the chain
             try
                 {
+
                 Object currentNode = getReferenceField( collectionToCopy,
                                                         backingStoreFieldName ) ;
                 int i = 0 ;
@@ -1032,35 +1115,44 @@ public class ReflectBackingStores
 
                     if ( i == entryCount )
                         {
+
                         throw new TestingException( "too many Nodes or a loop detected" ) ;
+
                         }
 
-                    collectionContents[ i++ ] = getReferenceField( currentNode,
-                                                                   nodeDataFieldName ) ;
+                    collectionContents[ i ] = getReferenceField( currentNode,
+                                                                 nodeDataFieldName ) ;
+                    i++ ;
                     currentNode = getReferenceField( currentNode,
                                                      nodeNextFieldName ) ;
+
                     }
 
                 }
-            catch ( IllegalArgumentException | SecurityException ex )
+            catch ( IllegalArgumentException
+                    | SecurityException ex )
                 {
+
                 final String exceptionClassName = ex.getClass()
                                                     .getSimpleName() ;
 
-                final String errorMessage = String.format( "Failed to retrieve backing chain from class %s, field %s, instance %s: %s%s%s",
-                                                           collectionToCopy.getClass()
-                                                                           .getSimpleName(),
-                                                           backingStoreFieldName,
-                                                           collectionToCopy.toString(),
-                                                           exceptionClassName,
-                                                           ( ex.getMessage() == null
-                                                                 ? ""
-                                                                 : ": " ),
-                                                           ( ex.getMessage() == null
-                                                                 ? ""
-                                                                 : ex.getMessage() ) ) ;
+                final String errorMessage
+                        = String.format( "Failed to retrieve backing chain from class %s, field %s, instance %s: %s%s%s",
+                                         collectionToCopy.getClass()
+                                                         .getSimpleName(),
+                                         backingStoreFieldName,
+                                         collectionToCopy.toString(),
+                                         exceptionClassName,
+                                         ( ex.getMessage() == null
+                                                 ? ""
+                                                 : ": " ),
+                                         ( ex.getMessage() == null
+                                                 ? ""
+                                                 : ex.getMessage() ) ) ;
 
-                throw new TestingException( errorMessage, ex ) ;
+                throw new TestingException( errorMessage,
+                                            ex ) ;
+
                 }
 
             }

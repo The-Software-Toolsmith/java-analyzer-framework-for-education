@@ -75,7 +75,7 @@ public class ReflectDataFields
     public static Field getField( final Object anInstance,
                                   final String fieldName,
                                   final String fieldType )
-        throws TestingException
+            throws TestingException
         {
 
         return getField( anInstance.getClass(),
@@ -107,7 +107,7 @@ public class ReflectDataFields
                                   final Object anInstance,
                                   final String fieldName,
                                   final String fieldType )
-        throws TestingException
+            throws TestingException
         {
 //        Class<?> theClass = anInstance.getClass() ;
 
@@ -119,13 +119,16 @@ public class ReflectDataFields
         // attempt to get the field from the given class
         try
             {
+
             final Field theField = theClass.getDeclaredField( fieldName ) ;
 //            Field theField = theClass.getField( fieldName ) ;   // IN_PROCESS 8/6/2021 214a
             theField.setAccessible( true ) ;
 
             return theField ;
+
             }
-        catch ( NoSuchFieldException | SecurityException ex )
+        catch ( NoSuchFieldException
+                | SecurityException ex )
             {
             // ignore NoSuchFieldException if we have a superclass
 
@@ -133,10 +136,12 @@ public class ReflectDataFields
 
             if ( superClass != null )
                 {
+
                 return getField( superClass,
                                  anInstance,
                                  fieldName,
                                  fieldType ) ;
+
                 }
 
             reportFieldAccessFailure( ex,
@@ -164,8 +169,8 @@ public class ReflectDataFields
 //
 //            throw new TestingException( errorMessage, ex ) ;
 
-            return null ;  // can't execute - reportFieldAccessFailure() always throws
-                           // TestingException
+            return null ;  // can't execute - reportFieldAccessFailure() always throws TestingException
+
             }
 
         }   // end getField()
@@ -201,32 +206,37 @@ public class ReflectDataFields
                                                   final Object anInstance,
                                                   final String fieldName,
                                                   final String fieldType )
-        throws TestingException
+            throws TestingException
         {
 
-        final String thrownClassName = thrown.getClass().getSimpleName() ;
+        final String thrownClassName = thrown.getClass()
+                                             .getSimpleName() ;
 
         if ( theClass == null )
             {
+
             theClass = anInstance.getClass() ;
+
             }
 
-        final String errorMessage = String.format( "Failed to %s %s value %s class %s, field %s, instance %s: %s%s%s",
-                                                   accessType,
-                                                   fieldType,
-                                                   fromTo,
-                                                   theClass.getSimpleName(),
-                                                   fieldName,
-                                                   anInstance.toString(),
-                                                   thrownClassName,
-                                                   ( thrown.getMessage() == null
-                                                       ? ""
-                                                       : ": " ),
-                                                   ( thrown.getMessage() == null
-                                                       ? ""
-                                                       : thrown.getMessage() ) ) ;
+        final String errorMessage
+                = String.format( "Failed to %s %s value %s class %s, field %s, instance %s: %s%s%s",
+                                 accessType,
+                                 fieldType,
+                                 fromTo,
+                                 theClass.getSimpleName(),
+                                 fieldName,
+                                 anInstance.toString(),
+                                 thrownClassName,
+                                 ( thrown.getMessage() == null
+                                         ? ""
+                                         : ": " ),
+                                 ( thrown.getMessage() == null
+                                         ? ""
+                                         : thrown.getMessage() ) ) ;
 
-        throw new TestingException( errorMessage, thrown ) ;
+        throw new TestingException( errorMessage,
+                                    thrown ) ;
 
         }   // end reportFieldAccessFailure()
 
@@ -246,17 +256,21 @@ public class ReflectDataFields
      */
     public static boolean getBooleanField( final Object anInstance,
                                            final String fieldName )
-        throws TestingException
+            throws TestingException
         {
 
         try
             {
+
             return getField( anInstance,
                              fieldName,
                              "boolean" ).getBoolean( anInstance ) ;
+
             }
-        catch ( IllegalArgumentException | IllegalAccessException e )
+        catch ( IllegalArgumentException
+                | IllegalAccessException e )
             {
+
             reportFieldAccessFailure( e,
                                       "retrieve",
                                       "from",
@@ -282,8 +296,8 @@ public class ReflectDataFields
 //
 //            throw new TestingException( errorMessage, e ) ;
 
-            return false ;  // can't execute - reportFieldAccessFailure() always throws
-                            // TestingException
+            return false ;  // can't execute - reportFieldAccessFailure() always throws TestingException
+
             }
 
         }   // end getBooleanField()
@@ -304,17 +318,21 @@ public class ReflectDataFields
      */
     public static byte getByteField( final Object anInstance,
                                      final String fieldName )
-        throws TestingException
+            throws TestingException
         {
 
         try
             {
+
             return getField( anInstance,
                              fieldName,
                              "byte" ).getByte( anInstance ) ;
+
             }
-        catch ( IllegalArgumentException | IllegalAccessException e )
+        catch ( IllegalArgumentException
+                | IllegalAccessException e )
             {
+
             reportFieldAccessFailure( e,
                                       "retrieve",
                                       "from",
@@ -340,6 +358,7 @@ public class ReflectDataFields
 //            throw new TestingException( errorMessage, e ) ;
 
             return 0 ;  // can't execute - reportFieldAccessFailure() always throws TestingException
+
             }
 
         }   // end getByteField()
@@ -360,17 +379,21 @@ public class ReflectDataFields
      */
     public static char getCharField( final Object anInstance,
                                      final String fieldName )
-        throws TestingException
+            throws TestingException
         {
 
         try
             {
+
             return getField( anInstance,
                              fieldName,
                              "char" ).getChar( anInstance ) ;
+
             }
-        catch ( IllegalArgumentException | IllegalAccessException e )
+        catch ( IllegalArgumentException
+                | IllegalAccessException e )
             {
+
             reportFieldAccessFailure( e,
                                       "retrieve",
                                       "from",
@@ -396,6 +419,7 @@ public class ReflectDataFields
 //            throw new TestingException( errorMessage, e ) ;
 
             return 0 ;  // can't execute - reportFieldAccessFailure() always throws TestingException
+
             }
 
         }   // end getCharField()
@@ -416,17 +440,21 @@ public class ReflectDataFields
      */
     public static double getDoubleField( final Object anInstance,
                                          final String fieldName )
-        throws TestingException
+            throws TestingException
         {
 
         try
             {
+
             return getField( anInstance,
                              fieldName,
                              "double" ).getDouble( anInstance ) ;
+
             }
-        catch ( IllegalArgumentException | IllegalAccessException e )
+        catch ( IllegalArgumentException
+                | IllegalAccessException e )
             {
+
             reportFieldAccessFailure( e,
                                       "retrieve",
                                       "from",
@@ -451,8 +479,8 @@ public class ReflectDataFields
 //
 //            throw new TestingException( errorMessage, e ) ;
 
-            return 0.0 ;  // can't execute - reportFieldAccessFailure() always throws
-                          // TestingException
+            return 0.0 ;  // can't execute - reportFieldAccessFailure() always throws TestingException
+
             }
 
         }   // end getDoubleField()
@@ -473,17 +501,21 @@ public class ReflectDataFields
      */
     public static float getFloatField( final Object anInstance,
                                        final String fieldName )
-        throws TestingException
+            throws TestingException
         {
 
         try
             {
+
             return getField( anInstance,
                              fieldName,
                              "float" ).getFloat( anInstance ) ;
+
             }
-        catch ( IllegalArgumentException | IllegalAccessException e )
+        catch ( IllegalArgumentException
+                | IllegalAccessException e )
             {
+
             reportFieldAccessFailure( e,
                                       "retrieve",
                                       "from",
@@ -508,8 +540,8 @@ public class ReflectDataFields
 //
 //            throw new TestingException( errorMessage, e ) ;
 
-            return 0.0F ;  // can't execute - reportFieldAccessFailure() always throws
-                           // TestingException
+            return 0.0F ;  // can't execute - reportFieldAccessFailure() always throws TestingException
+
             }
 
         }   // end getFloatField()
@@ -530,17 +562,21 @@ public class ReflectDataFields
      */
     public static int getIntField( final Object anInstance,
                                    final String fieldName )
-        throws TestingException
+            throws TestingException
         {
 
         try
             {
+
             return getField( anInstance,
                              fieldName,
                              "int" ).getInt( anInstance ) ;
+
             }
-        catch ( IllegalArgumentException | IllegalAccessException e )
+        catch ( IllegalArgumentException
+                | IllegalAccessException e )
             {
+
             reportFieldAccessFailure( e,
                                       "retrieve",
                                       "from",
@@ -566,6 +602,7 @@ public class ReflectDataFields
 //            throw new TestingException( errorMessage, e ) ;
 
             return 0 ;  // can't execute - reportFieldAccessFailure() always throws TestingException
+
             }
 
         }   // end getIntField()
@@ -586,17 +623,21 @@ public class ReflectDataFields
      */
     public static long getLongField( final Object anInstance,
                                      final String fieldName )
-        throws TestingException
+            throws TestingException
         {
 
         try
             {
+
             return getField( anInstance,
                              fieldName,
                              "long" ).getLong( anInstance ) ;
+
             }
-        catch ( IllegalArgumentException | IllegalAccessException e )
+        catch ( IllegalArgumentException
+                | IllegalAccessException e )
             {
+
             reportFieldAccessFailure( e,
                                       "retrieve",
                                       "from",
@@ -621,8 +662,8 @@ public class ReflectDataFields
 //
 //            throw new TestingException( errorMessage, e ) ;
 
-            return 0L ;  // can't execute - reportFieldAccessFailure() always throws
-                         // TestingException
+            return 0L ;  // can't execute - reportFieldAccessFailure() always throws TestingException
+
             }
 
         }   // end getLongField()
@@ -643,17 +684,21 @@ public class ReflectDataFields
      */
     public static Object getReferenceField( final Object anInstance,
                                             final String fieldName )
-        throws TestingException
+            throws TestingException
         {
 
         try
             {
+
             return getField( anInstance,
                              fieldName,
                              "reference" ).get( anInstance ) ;
+
             }
-        catch ( IllegalArgumentException | IllegalAccessException e )
+        catch ( IllegalArgumentException
+                | IllegalAccessException e )
             {
+
             reportFieldAccessFailure( e,
                                       "retrieve",
                                       "from",
@@ -678,8 +723,8 @@ public class ReflectDataFields
 //
 //            throw new TestingException( errorMessage, e ) ;
 
-            return null ;  // can't execute - reportFieldAccessFailure() always throws
-                           // TestingException
+            return null ;  // can't execute - reportFieldAccessFailure() always throws TestingException
+
             }
 
         }   // end getReferenceField()
@@ -700,17 +745,21 @@ public class ReflectDataFields
      */
     public static short getShortField( final Object anInstance,
                                        final String fieldName )
-        throws TestingException
+            throws TestingException
         {
 
         try
             {
+
             return getField( anInstance,
                              fieldName,
                              "short" ).getShort( anInstance ) ;
+
             }
-        catch ( IllegalArgumentException | IllegalAccessException e )
+        catch ( IllegalArgumentException
+                | IllegalAccessException e )
             {
+
             reportFieldAccessFailure( e,
                                       "retrieve",
                                       "from",
@@ -736,6 +785,7 @@ public class ReflectDataFields
 //            throw new TestingException( errorMessage, e ) ;
 
             return 0 ;  // can't execute - reportFieldAccessFailure() always throws TestingException
+
             }
 
         }   // end getShortField()
@@ -759,22 +809,27 @@ public class ReflectDataFields
     public static boolean setBooleanField( final Object anInstance,
                                            final String fieldName,
                                            final boolean newValue )
-        throws TestingException
+            throws TestingException
         {
 
         try
             {
+
             final Field theField = getField( anInstance,
                                              fieldName,
                                              "boolean" ) ;
             final boolean oldValue = theField.getBoolean( anInstance ) ;
 
-            theField.setBoolean( anInstance, newValue ) ;
+            theField.setBoolean( anInstance,
+                                 newValue ) ;
 
             return oldValue ;
+
             }
-        catch ( IllegalAccessException | SecurityException ex )
+        catch ( IllegalAccessException
+                | SecurityException ex )
             {
+
             reportFieldAccessFailure( ex,
                                       "retrieve or set",
                                       "from/to",
@@ -799,8 +854,8 @@ public class ReflectDataFields
 //
 //            throw new TestingException( errorMessage, ex ) ;
 
-            return false ;  // can't execute - reportFieldAccessFailure() always throws
-                            // TestingException
+            return false ;  // can't execute - reportFieldAccessFailure() always throws TestingException
+
             }
 
         }   // end setBooleanField()
@@ -824,20 +879,27 @@ public class ReflectDataFields
     public static byte setByteField( final Object anInstance,
                                      final String fieldName,
                                      final byte newValue )
-        throws TestingException
+            throws TestingException
         {
 
         try
             {
-            final Field theField = getField( anInstance, fieldName, "byte" ) ;
+
+            final Field theField = getField( anInstance,
+                                             fieldName,
+                                             "byte" ) ;
             final byte oldValue = theField.getByte( anInstance ) ;
 
-            theField.setByte( anInstance, newValue ) ;
+            theField.setByte( anInstance,
+                              newValue ) ;
 
             return oldValue ;
+
             }
-        catch ( IllegalAccessException | SecurityException ex )
+        catch ( IllegalAccessException
+                | SecurityException ex )
             {
+
             reportFieldAccessFailure( ex,
                                       "retrieve or set",
                                       "from/to",
@@ -863,6 +925,7 @@ public class ReflectDataFields
 //            throw new TestingException( errorMessage, ex ) ;
 
             return 0 ;  // can't execute - reportFieldAccessFailure() always throws TestingException
+
             }
 
         }   // end setByteField()
@@ -886,20 +949,27 @@ public class ReflectDataFields
     public static char setCharField( final Object anInstance,
                                      final String fieldName,
                                      final char newValue )
-        throws TestingException
+            throws TestingException
         {
 
         try
             {
-            final Field theField = getField( anInstance, fieldName, "char" ) ;
+
+            final Field theField = getField( anInstance,
+                                             fieldName,
+                                             "char" ) ;
             final char oldValue = theField.getChar( anInstance ) ;
 
-            theField.setChar( anInstance, newValue ) ;
+            theField.setChar( anInstance,
+                              newValue ) ;
 
             return oldValue ;
+
             }
-        catch ( IllegalAccessException | SecurityException ex )
+        catch ( IllegalAccessException
+                | SecurityException ex )
             {
+
             reportFieldAccessFailure( ex,
                                       "retrieve or set",
                                       "from/to",
@@ -925,6 +995,7 @@ public class ReflectDataFields
 //            throw new TestingException( errorMessage, ex ) ;
 
             return 0 ;  // can't execute - reportFieldAccessFailure() always throws TestingException
+
             }
 
         }   // end setCharField()
@@ -948,20 +1019,27 @@ public class ReflectDataFields
     public static double setDoubleField( final Object anInstance,
                                          final String fieldName,
                                          final double newValue )
-        throws TestingException
+            throws TestingException
         {
 
         try
             {
-            final Field theField = getField( anInstance, fieldName, "double" ) ;
+
+            final Field theField = getField( anInstance,
+                                             fieldName,
+                                             "double" ) ;
             final double oldValue = theField.getDouble( anInstance ) ;
 
-            theField.setDouble( anInstance, newValue ) ;
+            theField.setDouble( anInstance,
+                                newValue ) ;
 
             return oldValue ;
+
             }
-        catch ( IllegalAccessException | SecurityException ex )
+        catch ( IllegalAccessException
+                | SecurityException ex )
             {
+
             reportFieldAccessFailure( ex,
                                       "retrieve or set",
                                       "from/to",
@@ -986,8 +1064,8 @@ public class ReflectDataFields
 //
 //            throw new TestingException( errorMessage, ex ) ;
 
-            return 0.0 ;  // can't execute - reportFieldAccessFailure() always throws
-                          // TestingException
+            return 0.0 ;  // can't execute - reportFieldAccessFailure() always throws TestingException
+
             }
 
         }   // end setDoubleField()
@@ -1011,20 +1089,27 @@ public class ReflectDataFields
     public static float setFloatField( final Object anInstance,
                                        final String fieldName,
                                        final float newValue )
-        throws TestingException
+            throws TestingException
         {
 
         try
             {
-            final Field theField = getField( anInstance, fieldName, "float" ) ;
+
+            final Field theField = getField( anInstance,
+                                             fieldName,
+                                             "float" ) ;
             final float oldValue = theField.getFloat( anInstance ) ;
 
-            theField.setFloat( anInstance, newValue ) ;
+            theField.setFloat( anInstance,
+                               newValue ) ;
 
             return oldValue ;
+
             }
-        catch ( IllegalAccessException | SecurityException ex )
+        catch ( IllegalAccessException
+                | SecurityException ex )
             {
+
             reportFieldAccessFailure( ex,
                                       "retrieve or set",
                                       "from/to",
@@ -1049,8 +1134,8 @@ public class ReflectDataFields
 //
 //            throw new TestingException( errorMessage, ex ) ;
 
-            return 0.0F ;  // can't execute - reportFieldAccessFailure() always throws
-                           // TestingException
+            return 0.0F ;  // can't execute - reportFieldAccessFailure() always throws TestingException
+
             }
 
         }   // end setFloatField()
@@ -1074,20 +1159,27 @@ public class ReflectDataFields
     public static int setIntField( final Object anInstance,
                                    final String fieldName,
                                    final int newValue )
-        throws TestingException
+            throws TestingException
         {
 
         try
             {
-            final Field theField = getField( anInstance, fieldName, "int" ) ;
+
+            final Field theField = getField( anInstance,
+                                             fieldName,
+                                             "int" ) ;
             final int oldValue = theField.getInt( anInstance ) ;
 
-            theField.setInt( anInstance, newValue ) ;
+            theField.setInt( anInstance,
+                             newValue ) ;
 
             return oldValue ;
+
             }
-        catch ( IllegalAccessException | SecurityException ex )
+        catch ( IllegalAccessException
+                | SecurityException ex )
             {
+
             reportFieldAccessFailure( ex,
                                       "retrieve or set",
                                       "from/to",
@@ -1111,6 +1203,7 @@ public class ReflectDataFields
 //            throw new TestingException( errorMessage, ex ) ;
 
             return 0 ;  // can't execute - reportFieldAccessFailure() always throws TestingException
+
             }
 
         }   // end setIntField()
@@ -1134,20 +1227,27 @@ public class ReflectDataFields
     public static long setLongField( final Object anInstance,
                                      final String fieldName,
                                      final long newValue )
-        throws TestingException
+            throws TestingException
         {
 
         try
             {
-            final Field theField = getField( anInstance, fieldName, "long" ) ;
+
+            final Field theField = getField( anInstance,
+                                             fieldName,
+                                             "long" ) ;
             final long oldValue = theField.getLong( anInstance ) ;
 
-            theField.setLong( anInstance, newValue ) ;
+            theField.setLong( anInstance,
+                              newValue ) ;
 
             return oldValue ;
+
             }
-        catch ( IllegalAccessException | SecurityException ex )
+        catch ( IllegalAccessException
+                | SecurityException ex )
             {
+
             reportFieldAccessFailure( ex,
                                       "retrieve or set",
                                       "from/to",
@@ -1170,8 +1270,8 @@ public class ReflectDataFields
 //
 //            throw new TestingException( errorMessage, ex ) ;
 
-            return 0L ;  // can't execute - reportFieldAccessFailure() always throws
-                         // TestingException
+            return 0L ;  // can't execute - reportFieldAccessFailure() always throws TestingException
+
             }
 
         }   // end setLongField()
@@ -1195,22 +1295,27 @@ public class ReflectDataFields
     public static Object setReferenceField( final Object anInstance,
                                             final String fieldName,
                                             final Object newValue )
-        throws TestingException
+            throws TestingException
         {
 
         try
             {
+
             final Field theField = getField( anInstance,
                                              fieldName,
                                              "reference" ) ;
             final Object oldValue = theField.get( anInstance ) ;
 
-            theField.set( anInstance, newValue ) ;
+            theField.set( anInstance,
+                          newValue ) ;
 
             return oldValue ;
+
             }
-        catch ( IllegalAccessException | SecurityException ex )
+        catch ( IllegalAccessException
+                | SecurityException ex )
             {
+
             reportFieldAccessFailure( ex,
                                       "retrieve or set",
                                       "from/to",
@@ -1233,8 +1338,8 @@ public class ReflectDataFields
 //
 //            throw new TestingException( errorMessage, ex ) ;
 
-            return null ;  // can't execute - reportFieldAccessFailure() always throws
-                           // TestingException
+            return null ;  // can't execute - reportFieldAccessFailure() always throws TestingException
+
             }
 
         }   // end setReferenceField()
@@ -1258,20 +1363,27 @@ public class ReflectDataFields
     public static short setShortField( final Object anInstance,
                                        final String fieldName,
                                        final short newValue )
-        throws TestingException
+            throws TestingException
         {
 
         try
             {
-            final Field theField = getField( anInstance, fieldName, "short" ) ;
+
+            final Field theField = getField( anInstance,
+                                             fieldName,
+                                             "short" ) ;
             final short oldValue = theField.getShort( anInstance ) ;
 
-            theField.setShort( anInstance, newValue ) ;
+            theField.setShort( anInstance,
+                               newValue ) ;
 
             return oldValue ;
+
             }
-        catch ( IllegalAccessException | SecurityException ex )
+        catch ( IllegalAccessException
+                | SecurityException ex )
             {
+
             reportFieldAccessFailure( ex,
                                       "retrieve or set",
                                       "from/to",
@@ -1295,6 +1407,7 @@ public class ReflectDataFields
 //            throw new TestingException( errorMessage, ex ) ;
 
             return 0 ;  // can't execute - reportFieldAccessFailure() always throws TestingException
+
             }
 
         }   // end setShortField()

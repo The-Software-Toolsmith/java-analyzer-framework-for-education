@@ -73,8 +73,8 @@ public class ReflectMethods
      * @param methodName
      *     the name of the method to execute
      *
-     * @return any value or object returned by the method - if the named method returns a primitive
-     *     type, the value will be wrapped - if the method is void, then null
+     * @return any value or object returned by the method - if the named method returns a primitive type, the
+     *     value will be wrapped - if the method is void, then null
      *
      * @throws TestingException
      *     any wrapped exceptions which may be thrown by reflection
@@ -84,7 +84,7 @@ public class ReflectMethods
     public static Object invoke( final Class<?> theClass,
                                  final Object anInstance,
                                  final String methodName )
-        throws TestingException, Throwable
+            throws TestingException, Throwable
         {   // DMR NEW
 
         return invoke( theClass,
@@ -110,8 +110,8 @@ public class ReflectMethods
      * @param arguments
      *     any parameters to pass to the method
      *
-     * @return any value or object returned by the method - if the named method returns a primitive
-     *     type, the value will be wrapped - if the method is void, then null
+     * @return any value or object returned by the method - if the named method returns a primitive type, the
+     *     value will be wrapped - if the method is void, then null
      *
      * @throws TestingException
      *     any wrapped exceptions which may be thrown by reflection
@@ -123,22 +123,26 @@ public class ReflectMethods
                                  final String methodName,
                                  final Class<?>[] parameterTypes,
                                  final Object... arguments )
-        throws TestingException, Throwable
+            throws TestingException, Throwable
         {
 
         Method theMethod = null ;
 
         try
             {
-            final List<Method> methodsOfInterest = new LinkedList<>( Arrays.asList( theClass.getDeclaredMethods() ) ) ;
+
+            final List<Method> methodsOfInterest
+                    = new LinkedList<>( Arrays.asList( theClass.getDeclaredMethods() ) ) ;
             methodsOfInterest.addAll( Arrays.asList( theClass.getMethods() ) ) ;
 
             for ( final Method aMethod : methodsOfInterest )
 //            for ( Method aMethod : theClass.getDeclaredMethods() )    // IN_PROCESS
                 {
 
-                if ( aMethod.getName().equals( methodName ) )
+                if ( aMethod.getName()
+                            .equals( methodName ) )
                     {
+
                     // check the parameters
                     final Type[] definedParameterTypes = aMethod.getParameterTypes() ;
                     final Type[] definedGenericParameterTypes = aMethod.getGenericParameterTypes() ;
@@ -147,51 +151,56 @@ public class ReflectMethods
                     if ( definedParameterTypes.length == 0 )
                         {
 
-                        if ( ( parameterTypes == null ) ||
-                             ( parameterTypes.length == 0 ) )
+                        if ( ( parameterTypes == null ) || ( parameterTypes.length == 0 ) )
                             {
+
                             // no parameters supplied - found it
                             theMethod = aMethod ;
 
                             break ;
+
                             }
 
                         // not a match - keep looking
                         continue ;
+
                         }
 
                     // at least one parameter defined
                     if ( definedParameterTypes.length == parameterTypes.length )
                         {
-                        // correct number of parameters
-                        // see if they're the right types
+
+                        // correct number of parameters see if they're the right types
                         boolean mismatch = false ;
 
-                        for ( int i = 0 ;
-                              i < definedParameterTypes.length ;
-                              i++ )
+                        for ( int i = 0 ; i < definedParameterTypes.length ; i++ )
                             {
 
-                            if ( !definedParameterTypes[ i ].equals( parameterTypes[ i ] ) &&
-                                 !definedGenericParameterTypes[ i ].equals( parameterTypes[ i ] ) )
+                            if ( ! definedParameterTypes[ i ].equals( parameterTypes[ i ] )
+                                 && ! definedGenericParameterTypes[ i ].equals( parameterTypes[ i ] ) )
                                 {
+
                                 // mismatch
                                 mismatch = true ;
 
                                 break ;
+
                                 }
 
                             }
 
                         if ( mismatch )
                             {
+
                             continue ;
+
                             }
 
                         // found a match
                         theMethod = aMethod ;
 
                         break ;
+
                         }
 
                     }
@@ -200,8 +209,10 @@ public class ReflectMethods
 
             if ( theMethod == null )
                 {
+
                 // didn't find a matching method
                 throw new NoSuchMethodException() ;
+
                 }
 
             theMethod.setAccessible( true ) ;
@@ -211,13 +222,17 @@ public class ReflectMethods
 //                               theMethod.getDeclaringClass().getSimpleName() ) ;
 
             // for static methods, anInstance is typically null
-            return theMethod.invoke( anInstance, arguments ) ;
+            return theMethod.invoke( anInstance,
+                                     arguments ) ;
+
             }
 
         catch ( final InvocationTargetException e )
             {
+
             // simply propagate any exception from the called method to our caller
             throw e.getCause() ;
+
             }
 
         catch ( NoSuchMethodException
@@ -225,6 +240,7 @@ public class ReflectMethods
                 | IllegalAccessException
                 | IllegalArgumentException e )
             {
+
             // build a description of the expected parameter list
             final StringBuilder displayParameterTypes = new StringBuilder() ;
 
@@ -236,30 +252,37 @@ public class ReflectMethods
 
                     if ( i != 0 )
                         {
+
                         displayParameterTypes.append( ", " ) ;
+
                         }
 
                     displayParameterTypes.append( parameterTypes[ i ].getSimpleName() ) ;
+
                     }
 
                 }
 
-            final String exceptionClassName = e.getClass().getSimpleName() ;
+            final String exceptionClassName = e.getClass()
+                                               .getSimpleName() ;
 
-            final String errorMessage = String.format( "Failed to invoke method %s(%s) in class %s with argument(s): %s:%n\t%s%s%s",
-                                                       methodName,
-                                                       displayParameterTypes.toString(),
-                                                       theClass.getSimpleName(),
-                                                       Arrays.toString( arguments ),
-                                                       exceptionClassName,
-                                                       ( e.getMessage() == null
-                                                           ? ""
-                                                           : ": " ),
-                                                       ( e.getMessage() == null
-                                                           ? ""
-                                                           : e.getMessage() ) ) ;
+            final String errorMessage
+                    = String.format( "Failed to invoke method %s(%s) in class %s with argument(s): %s:%n\t%s%s%s",
+                                     methodName,
+                                     displayParameterTypes.toString(),
+                                     theClass.getSimpleName(),
+                                     Arrays.toString( arguments ),
+                                     exceptionClassName,
+                                     ( e.getMessage() == null
+                                             ? ""
+                                             : ": " ),
+                                     ( e.getMessage() == null
+                                             ? ""
+                                             : e.getMessage() ) ) ;
 
-            throw new TestingException( errorMessage, e ) ;
+            throw new TestingException( errorMessage,
+                                        e ) ;
+
             }
 
         }   // end invoke() with arguments

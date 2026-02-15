@@ -28,7 +28,8 @@ package education.the_software_toolsmith.analyzer.framework.dynamic_analysis ;
  * @version 1.0 2020-09-13 Initial implementation
  * @version 1.1 2021-06-19 add no-arg and 1-arg String constructors
  */
-public class TestingException extends RuntimeException
+public class TestingException
+        extends RuntimeException
     {
 
     /*
@@ -72,7 +73,7 @@ public class TestingException extends RuntimeException
 
     /**
      * constructor with cause
-     * 
+     *
      * @param cause
      *     the 'wrapped' exception
      */
@@ -86,16 +87,18 @@ public class TestingException extends RuntimeException
 
     /**
      * constructor with message and cause
-     * 
+     *
      * @param message
      *     descriptive message related to the {@code cause}
      * @param cause
      *     the 'wrapped' exception
      */
-    public TestingException( final String message, final Throwable cause )
+    public TestingException( final String message,
+                             final Throwable cause )
         {
 
-        super( message, cause ) ;
+        super( message,
+               cause ) ;
 
         }   // end 'wrapper' constructor with descriptive message
 

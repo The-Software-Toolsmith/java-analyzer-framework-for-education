@@ -27,9 +27,10 @@ package education.the_software_toolsmith.analyzer.framework.dynamic_analysis ;
  *
  * @version 1.0 2021-06-13 Initial implementation
  */
-public class StubMethodException extends RuntimeException
+public class StubMethodException
+        extends RuntimeException
     {
-    
+
     /*
      * constants
      */
@@ -39,7 +40,7 @@ public class StubMethodException extends RuntimeException
 
 
     /*
-     *  constructors
+     * constructors
      */
 
 
@@ -70,7 +71,7 @@ public class StubMethodException extends RuntimeException
 
     /**
      * constructor with cause
-     * 
+     *
      * @param cause
      *     the 'wrapped' exception
      */
@@ -84,16 +85,18 @@ public class StubMethodException extends RuntimeException
 
     /**
      * constructor with message and cause
-     * 
+     *
      * @param message
      *     descriptive message related to the {@code cause}
      * @param cause
      *     the 'wrapped' exception
      */
-    public StubMethodException( final String message, final Throwable cause )
+    public StubMethodException( final String message,
+                                final Throwable cause )
         {
 
-        super( message, cause ) ;
+        super( message,
+               cause ) ;
 
         }   // end constructor with descriptive message
 

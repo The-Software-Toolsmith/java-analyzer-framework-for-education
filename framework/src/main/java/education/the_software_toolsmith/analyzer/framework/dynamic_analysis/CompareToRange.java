@@ -26,26 +26,23 @@ package education.the_software_toolsmith.analyzer.framework.dynamic_analysis ;
  * @author David M Rosenberg
  *
  * @version 1.0 2021-06-20 Initial implementation - extracted from {@code TimeOfDayDMRTests.java}
- * @version 1.1 2023-10-19 rewrite {@code opposite()} to use {@code switch} expression instead of
- *     nested ternary conditional expression
+ * @version 1.1 2023-10-19 rewrite {@code opposite()} to use {@code switch} expression instead of nested
+ *     ternary conditional expression
  */
 public enum CompareToRange
     {
 
-    /** represents any value less than zero */
-    NEGATIVE ( "<0" )
+     /** represents any value less than zero */
+     NEGATIVE( "<0" ),
 
-    ,
-    /** represents the value zero */
-    ZERO ( "0" )
+     /** represents the value zero */
+     ZERO( "0" ),
 
-    ,
-    /** represents any value greater than zero */
-    POSITIVE ( ">0" )
+     /** represents any value greater than zero */
+     POSITIVE( ">0" ),
 
-    ,
-    /** represents any non-numeric value */
-    NOT_APPLICABLE ( "n/a" );
+     /** represents any non-numeric value */
+     NOT_APPLICABLE( "n/a" );
 
 
     /** text to display for this range */
@@ -57,8 +54,6 @@ public enum CompareToRange
      *
      * @param description
      *     text to display for this range
-     *
-     * @since 1.0
      */
     private CompareToRange( final String description )
         {
@@ -72,22 +67,18 @@ public enum CompareToRange
      * Returns the opposite condition
      *
      * @return the opposite enum instance
-     *
-     * @since 1.0
      */
     public CompareToRange opposite()
         {
 
         return switch ( this )
             {
-            case ZERO
-                -> ZERO ;
-            case NEGATIVE
-                -> POSITIVE ;
-            case POSITIVE
-                -> NEGATIVE ;
-            default
-                -> NOT_APPLICABLE ;
+
+            case ZERO -> ZERO ;
+            case NEGATIVE -> POSITIVE ;
+            case POSITIVE -> NEGATIVE ;
+            default -> NOT_APPLICABLE ;
+
             } ;
 
         }   // end opposite()
