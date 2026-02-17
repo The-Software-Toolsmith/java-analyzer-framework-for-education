@@ -25,6 +25,7 @@
         <dependencies>
 
             <!-- our framework and tools -->
+            <!--
             <dependency>
                 <groupId>education.the-software-toolsmith</groupId>
                 <artifactId>java-analyzer-framework-for-education</artifactId>
@@ -36,7 +37,7 @@
                 <artifactId>java-analyzer-tools-for-education</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
+            -->
 
             <!-- JUnit: single knob for all JUnit modules -->
             <dependency>
