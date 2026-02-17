@@ -13,6 +13,7 @@
 
     <artifactId>java-analyzer-framework-for-education</artifactId>
     <packaging>jar</packaging>
+    
 
     <name>Java Analyzer Framework (Education)</name>
     <description>
@@ -21,21 +22,6 @@
         Intended to be incorporated into analyzers run by the student (e.g.,
         JUnit testing) or the instructor.
     </description>
-
-
-    <dependencyManagement>
-        <dependencies>
-
-            <dependency>
-                <groupId>education.the-software-toolsmith</groupId>
-                <artifactId>java-analyzer-framework-for-education-bom</artifactId>
-                <version>${project.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-        </dependencies>
-    </dependencyManagement>
 
 
     <dependencies>

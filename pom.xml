@@ -9,11 +9,15 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+
     <modules>
+        <!-- temp remove bom to avoid jitpack coordinate re-writing issues
         <module>bom</module>
+        -->
         <module>framework</module>
         <module>tools</module>
     </modules>
+
 
     <name>Java Analyzer Framework (Education)</name>
     <description>
@@ -77,18 +81,63 @@
     <dependencyManagement>
         <dependencies>
 
-            <!-- manage reactor module versions (so tools can depend on
-            framework w/out version) -->
+            <!-- internal modules -->
             <dependency>
                 <groupId>education.the-software-toolsmith</groupId>
                 <artifactId>java-analyzer-framework-for-education</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
+            
             <dependency>
                 <groupId>education.the-software-toolsmith</groupId>
                 <artifactId>java-analyzer-tools-for-education</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            
+
+            <!-- third-party -->
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>6.0.2</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.puppycrawl.tools</groupId>
+                <artifactId>checkstyle</artifactId>
+                <version>12.2.0</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>com.github.javaparser</groupId>
+                <artifactId>javaparser-symbol-solver-core</artifactId>
+                <version>3.27.1</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>com.github.javaparser</groupId>
+                <artifactId>javaparser-core-serialization</artifactId>
+                <version>3.27.1</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>jakarta.json</groupId>
+                <artifactId>jakarta.json-api</artifactId>
+                <version>2.1.3</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>org.eclipse.parsson</groupId>
+                <artifactId>jakarta.json</artifactId>
+                <version>1.1.7</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>2.20.1</version>
             </dependency>
 
         </dependencies>
