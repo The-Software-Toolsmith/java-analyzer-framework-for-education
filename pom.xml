@@ -87,13 +87,13 @@
                 <artifactId>java-analyzer-framework-for-education</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>education.the-software-toolsmith</groupId>
                 <artifactId>java-analyzer-tools-for-education</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            
+
 
             <!-- third-party -->
             <dependency>
@@ -109,38 +109,38 @@
                 <artifactId>checkstyle</artifactId>
                 <version>12.2.0</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>com.github.javaparser</groupId>
                 <artifactId>javaparser-symbol-solver-core</artifactId>
                 <version>3.27.1</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>com.github.javaparser</groupId>
                 <artifactId>javaparser-core-serialization</artifactId>
                 <version>3.27.1</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>jakarta.json</groupId>
                 <artifactId>jakarta.json-api</artifactId>
                 <version>2.1.3</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.eclipse.parsson</groupId>
                 <artifactId>jakarta.json</artifactId>
                 <version>1.1.7</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
                 <version>2.20.1</version>
             </dependency>
-            
-            
+
+
             <!-- address dependency graph conflicts - lock in versions -->
             <dependency>
                 <groupId>org.javassist</groupId>
@@ -242,10 +242,104 @@
                     <version>${exec.maven.plugin.version}</version>
                 </plugin>
 
+                <!-- dependency version checking -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>3.6.2</version>
+                </plugin>
+
+
             </plugins>
 
         </pluginManagement>
 
+        <plugins>
+        
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+
+<!-- -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <doclint>all,-missing</doclint>
+                </configuration>
+            </plugin>
+            <!-- -->
+            <!-- for dependency version checking -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+
+                <executions>
+                    <execution>
+                        <id>enforce-basics</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+
+                        <configuration>
+                            <rules>
+
+                                <requireJavaVersion>
+                                    <version>[25,)</version>
+                                </requireJavaVersion>
+
+                                <requireMavenVersion>
+                                    <version>[3.9,)</version>
+                                </requireMavenVersion>
+
+                                <banDuplicatePomDependencyVersions />
+
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+                
+            </plugin>
+        </plugins>
+
     </build>
+
+    <profiles>
+        <!-- for dependency version checking -->
+        <profile>
+            <id>strict</id>
+
+            <build>
+                <plugins>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+
+                        <executions>
+                            <execution>
+                                <id>enforce-strict-dependencies</id>
+                                <goals>
+                                    <goal>enforce</goal>
+                                </goals>
+
+                                <configuration>
+                                    <rules>
+
+                                        <dependencyConvergence />
+
+                                        <requireUpperBoundDeps />
+
+                                    </rules>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>
