@@ -58,18 +58,20 @@ import java.util.stream.Stream ;
 public final class BatchRunner extends SharedState
     {
 
+    // @formatter:off
     /**
      * <pre>
-     *
+     * {@code
      * Args:
      *   0 = student root folder (contains many student project folders or files)
-     *   1 = glob or filename (e.g., "{className}.java" or "**<pre>
-     * </pre>
-     * 
-     * /{className}.java") 2 = output logs folder 3 = project root (the project that contains your
-     * tests/tools) Example: java ... BatchRunner C:\to-grade {className}.java C:\logs C:\autograder
+     *   1 = glob or filename (e.g., "{className}.java" or "/{className}.java")
+     *   2 = output logs folder
+     *   3 = project root (the project that contains your tests/tools)
+     *   Example: java ... BatchRunner C:\to-grade {className}.java C:\logs C:\autograder
+     *   }
      * </pre>
      */
+    // @formatter:on
     public static void main( final String[] args ) throws Exception
         {
 

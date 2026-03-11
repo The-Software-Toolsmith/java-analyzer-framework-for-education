@@ -57,9 +57,10 @@ import java.util.stream.Stream ;
 public final class Extracter
     {
 
+    // @formatter:off
     /**
      * <pre>
-     *
+     * {@code
      * Args:
      *   0 = student root folder (contains many student project folders or files)
      *   1 = glob or filename (e.g., "{className}.java" or "**<pre></pre>/{className}.java")
@@ -68,8 +69,10 @@ public final class Extracter
      *
      * Example:
      *   java ... BatchRunner  C:\to-grade  {className}.java  C:\logs  C:\autograder
+     *   }
      * </pre>
      */
+    // @formatter:on
     public static void main( final String[] args ) throws Exception
         {
         System.out.printf( "args  to main():%n" ) ;
