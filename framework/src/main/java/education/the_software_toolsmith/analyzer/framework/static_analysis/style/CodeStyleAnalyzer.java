@@ -51,15 +51,18 @@ import java.util.Map.Entry ;
 
 
 /**
- * Simple helper to run Checkstyle programmatically on a set of .java files. Requires Checkstyle on the
- * classpath, e.g. Maven:
+ * Simple helper to run Checkstyle programmatically on a set of .java files.
+ * 
+ * Requires Checkstyle on the classpath, e.g. Maven:
  *
  * <pre>
+ * {@code
  * <dependency>
  *   <groupId>com.puppycrawl.tools</groupId>
  *   <artifactId>checkstyle</artifactId>
  *   <version>10.17.0</version>
  * </dependency>
+ * }
  * </pre>
  *
  * @author David M Rosenberg based on code from ChatGPT 5.1
