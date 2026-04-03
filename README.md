@@ -24,6 +24,9 @@ external code due to encapsulation/visibility constraints.
 
 
 ---
+
+This work is in affiliation with [Wentworth Institute of Technology](https://wit.edu), School of Computing and Data Science.
+
 Copyright © 2016-2026 David M Rosenberg, The Software Toolsmith
 
 ## License
