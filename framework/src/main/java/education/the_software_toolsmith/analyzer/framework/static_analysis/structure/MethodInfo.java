@@ -36,6 +36,7 @@ import java.util.List ;
  * @author David M Rosenberg
  *
  * @version 1.0 2025-12-07 Initial implementation based on code provided by ChatGPT 5.1
+ * @version 1.1 2026-04-19 tweak text from {@code toString()}
  */
 @SuppressWarnings( "javadoc" )  // DMR FUTURE add Javadoc comments
 public final class MethodInfo
@@ -239,7 +240,7 @@ public final class MethodInfo
     public String toString()
         {
 
-        return String.format( "%s: [%s] %s %s%s; %s: %s",
+        return String.format( "%s: [%s] returns: %s; method: %s; params: %s; methodKey: %s: %s",
                               this.isConstructor
                                       ? "c"
                                       : "m",

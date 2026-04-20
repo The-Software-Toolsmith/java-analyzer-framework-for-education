@@ -63,6 +63,11 @@ import java.util.Objects ;
  * @version 2.0 2025-12-17 first pass quick and dirty mods to handle any adt
  * @version 3.0 2026-01-10 rename from {@code ImplementationComplianceChecker} to
  *     {@code CodeStructureAnalyzer}
+ * @version 3.1 2026-04-18
+ *     <ul>
+ *     <li>add support in constructors to specify student and/or starter code locations</li>
+ *     <li>add {@code toString()} for debugging</li>
+ *     </ul>
  */
 @SuppressWarnings( "javadoc" )  // DMR FUTURE add Javadoc comments
 public final class CodeStructureAnalyzer extends SharedState
@@ -108,7 +113,6 @@ public final class CodeStructureAnalyzer extends SharedState
      */
     public final Map<String, List<Requirement>> requirementsForEachMethod ;
 
-
     /*
      * constructors
      */
@@ -128,7 +132,8 @@ public final class CodeStructureAnalyzer extends SharedState
 
         this( specifiedClassName,
               specifiedBaseSearchLocation,
-              new LinkedHashMap<>() ) ;
+              null,
+              null ) ;
 
         }   // end 2-arg constructor
 
@@ -148,23 +153,98 @@ public final class CodeStructureAnalyzer extends SharedState
                                   final Map<String, List<Requirement>> methodRequirements )
         {
 
+        this( specifiedClassName,
+              specifiedBaseSearchLocation,
+              null,
+              null,
+              methodRequirements ) ;
+
+        }   // end 3-arg constructor
+
+
+    /**
+     * set initial state to hold the paths to the versions of the code we need to validate the implementation
+     *
+     * @param specifiedClassName
+     *     name of the class to validate
+     * @param specifiedBaseSearchLocation
+     *     starting location for the implementations
+     * @param specifiedStarterCodeLocation
+     *     where to look for the starter code
+     * @param specifiedStudentCodeLocation
+     *     where to look for the student code
+     */
+    public CodeStructureAnalyzer( final String specifiedClassName,
+                                  final String specifiedBaseSearchLocation,
+                                  final String specifiedStarterCodeLocation,
+                                  final String specifiedStudentCodeLocation )
+        {
+
+        this( specifiedClassName,
+              specifiedBaseSearchLocation,
+              specifiedStarterCodeLocation,
+              specifiedStudentCodeLocation,
+              new LinkedHashMap<>() ) ;
+
+        }   // end 4-arg constructor
+
+
+    /**
+     * set initial state to hold the paths to the versions of the code we need to validate the implementation
+     *
+     * @param specifiedClassName
+     *     name of the class to validate
+     * @param specifiedBaseSearchLocation
+     *     starting location for the implementations
+     * @param specifiedStarterCodeLocation
+     *     where to look for the starter code
+     * @param specifiedStudentCodeLocation
+     *     where to look for the student code
+     * @param methodRequirements
+     *     map of method signature -> list of implementation requirements
+     */
+    public CodeStructureAnalyzer( final String specifiedClassName,
+                                  final String specifiedBaseSearchLocation,
+                                  final String specifiedStarterCodeLocation,
+                                  final String specifiedStudentCodeLocation,
+                                  final Map<String, List<Requirement>> methodRequirements )
+        {
+
         this.classToAssess = specifiedClassName ;
         this.baseSearchLocation = specifiedBaseSearchLocation ;
 
 
         this.studentCodePath = null ;
-        this.starterCodePath = null ;
+        if ( specifiedStudentCodeLocation != null )
+            {
 
+            this.studentCodePath = Path.of( specifiedStudentCodeLocation ) ;
+
+            }
+
+        
+        this.starterCodePath = null ;
+        if ( specifiedStarterCodeLocation != null )
+            {
+
+            this.starterCodePath = Path.of( specifiedStarterCodeLocation ) ;
+
+            }
+
+        
         this.studentWorkMethodSignatures = new LinkedList<>() ;
 
         this.result = new Result( this ) ;
         this.report = this.result.report ;
 
-        findSourceCode() ;
+        if ( ( this.studentCodePath == null ) || ( this.starterCodePath == null ) )
+            {
+            findSourceCode() ;
+            }
 
         this.requirementsForEachMethod = methodRequirements ;
 
-        }   // end full/3-arg constructor
+        }   // end 5-arg/full constructor
 
 
     /**
@@ -182,8 +262,8 @@ public final class CodeStructureAnalyzer extends SharedState
          * get all code and parse for methods and constructors: starter, student work
          */
         collectCode() ;
-
-
+        
+        
         /*
          * determine the work that is expected
          */
@@ -218,41 +298,42 @@ public final class CodeStructureAnalyzer extends SharedState
         final List<MethodKey> methodsUnchanged = this.result.actualChanges.get( LEAVE_AS_IS ) ;
 
 
-        /*
-         * all method implementation compliance requirements
-         */
-
-        this.report.append( String.format( "%n==================%n" ) ) ;
-
-        this.report.append( String.format( "%nCompliance Rules:%n" ) ) ;
-        
-        Requirement.excludeComplianceInToString() ;
-        Requirement.excludeIndentInToString() ;
-
-        for ( final String methodSignature : this.studentWorkMethodSignatures )
-            {
-            this.report.append( String.format( "%n%s%n%n", methodSignature ) ) ;
-
-            final List<Requirement> requirements = this.requirementsForEachMethod.get( methodSignature ) ;
-
-            if ( requirements == null )
-                {
-                this.report.append( String.format( "\tnone%n" ) ) ;
-
-                continue ;
-                }
-
-            for ( final Requirement requirement : requirements )
-                {
-                this.report.append( String.format( "\t%s%n", requirement ) ) ;
-                }
-
-            }
+//        /*
+//         * all method implementation compliance requirements
+//         */
+//
+//        this.report.append( String.format( "%n%s%n", "-".repeat( 5 ) ) ) ;
+//
+//        this.report.append( String.format( "%nCompliance Rules:%n" ) ) ;
+//        
+//        Requirement.excludeComplianceInToString() ;
+//        Requirement.excludeIndentInToString() ;
+//
+//        for ( final String methodSignature : this.studentWorkMethodSignatures )
+//            {
+//            this.report.append( String.format( "%n%s%n%n", methodSignature ) ) ;
+//
+//            final List<Requirement> requirements = this.requirementsForEachMethod.get( methodSignature ) ;
+//
+//            if ( requirements == null )
+//                {
+//                this.report.append( String.format( "\tnone%n" ) ) ;
+//
+//                continue ;
+//                }
+//
+//            for ( final Requirement requirement : requirements )
+//                {
+//                this.report.append( String.format( "\t%s%n", requirement ) ) ;
+//                }
+//
+//            }
         
         Requirement.includeIndentInToString() ;
         Requirement.includeComplianceInToString() ;
 
-        this.report.append( String.format( "%n==================%n" ) ) ;
+        this.report.append( String.format( "%n%s%n",
+                                           "-".repeat( 5 ) ) ) ;
 
 
         /*
@@ -261,15 +342,15 @@ public final class CodeStructureAnalyzer extends SharedState
         final String format = "%-" + REQUIREMENT_RULE_SPACE + "s:  %s%n" ;
 
 
-        this.report.append( String.format( "%nAnalyzing:%n" ) ) ;
+//        this.report.append( String.format( "%nAnalyzing:%n  %s%n", this.starterCodePath.toString() ) ) ;
 
         for ( final String studentWorkMethodSignature : this.studentWorkMethodSignatures )
             {
             assessMethodCompliance( studentWorkMethodSignature, format ) ;
             }
 
-        // the results of the analysis
 
+        // the results of the analysis
         return this.result ;
 
         }   // end analyze()
@@ -457,7 +538,7 @@ public final class CodeStructureAnalyzer extends SharedState
 
             }
 
-        this.report.append( String.format( "%nPassed %,d of %,d check%s%n%n",
+        this.report.append( String.format( "%nPassed %,d of %,d check%s%n",
                                            testsPassed,
                                            testCount,
                                            testCount == 1
@@ -468,12 +549,20 @@ public final class CodeStructureAnalyzer extends SharedState
         this.result.testsPassed += testsPassed ;
 
 
-        final String studentImplementation
-                = getOriginalMethodSource( this.result, studentWorkMethodKey, TO_EVALUATE ) ;
-        this.report.append( String.format( "%s%n", studentImplementation ) ) ;
+        // if the method didn't pass all compliance tests, include the original method code in the report
+        if ( ( studentWorkMethodInfo != null ) && ( studentWorkMethodInfo.getCompliance() == FAILED ) )
+            {
+
+            final String studentImplementation = getOriginalMethodSource( this.result,
+                                                                          studentWorkMethodKey,
+                                                                          TO_EVALUATE ) ;
+            this.report.append( String.format( "%s%n",
+                                               studentImplementation ) ) ;/* IN_PROCESS DMR DEBUG */
+
+            }
 
         
-        this.report.append( String.format( "==================%n" ) ) ;
+        this.report.append( String.format( "%n%s%n", "-".repeat( 5 ) ) ) ;
 
         }   // end assessMethodImplementation()
 
@@ -499,12 +588,17 @@ public final class CodeStructureAnalyzer extends SharedState
 
         final boolean callsTheTarget = switch ( targetType )
             {
-            case METHOD -> callsMethodWithSignature( studentMethod, target ) ;
-            case CONSTRUCTOR -> callsConstructorWithSignature( studentMethod, target ) ;
+
+            case METHOD -> callsMethodWithSignature( studentMethod,
+                                                     target ) ;
+            case CONSTRUCTOR -> callsConstructorWithSignature( studentMethod,
+                                                               target ) ;
             default -> throw new ComplianceException( String.format( "unexpected targetType: %s",
                                                                      targetType.getClass()
                                                                                .getSimpleName() ) ) ;
+
             } ;
+
 
         // match the actual behavior with the specified behavior
         return switch ( requirementType )
@@ -779,9 +873,11 @@ public final class CodeStructureAnalyzer extends SharedState
                                                             action ) ) ;
             }
 
-        final boolean wasModified = this.result.actualChanges.get( action ).contains( methodKey ) ; /* IN_PROCESS */
+        final boolean wasModified = this.result.actualChanges.get( action )
+                                                             .contains( methodKey ) ; /* IN_PROCESS */
 
-        final boolean onLeaveAsIsList = isOnActualActionList( methodKey, action ) ;
+        final boolean onLeaveAsIsList = isOnActualActionList( methodKey,
+                                                              action ) ;
 
         return switch ( requirementType )
             {
@@ -996,7 +1092,7 @@ public final class CodeStructureAnalyzer extends SharedState
 
 
     /**
-     * get all code and parse for methods and constructors: starter, solution, student work
+     * get all code and parse for methods and constructors: starter, student work
      *
      * @throws Exception
      *     from the file system, JavaParser, or this utility
@@ -1007,11 +1103,11 @@ public final class CodeStructureAnalyzer extends SharedState
         this.result.sourceCodePaths.put( STARTER, this.starterCodePath ) ;
         this.result.sourceCodePaths.put( TO_EVALUATE, this.studentCodePath ) ;
 
-        this.report.append( String.format( """
-                                           Starter code: %s
-                                           Student work: %s
-                                           """, this.result.sourceCodePaths.get( STARTER ),
-                                           this.result.sourceCodePaths.get( TO_EVALUATE ) ) ) ;
+//        this.report.append( String.format( """
+//                                           Starter code: %s
+//                                           Student work: %s
+//                                           """, this.result.sourceCodePaths.get( STARTER ),
+//                                           this.result.sourceCodePaths.get( TO_EVALUATE ) ) ) ;/* DEBUG IN_PROCESS DMR */
 
         this.result.sourceCode.put( STARTER, Files.readAllLines( this.starterCodePath ) ) ;
         this.result.sourceCode.put( TO_EVALUATE, Files.readAllLines( this.studentCodePath ) ) ;
@@ -1163,27 +1259,27 @@ public final class CodeStructureAnalyzer extends SharedState
 
             }
 
-        /*
-         * display student's methods to check
-         */
-
-        this.report.append( String.format( "%n-----------------%n%nActual:%n" ) ) ;
-
-        Requirement.excludeComplianceInToString() ;
-        
-        boolean sawOptionalActions = false ;
-        
-        sawOptionalActions |= reportSummaryListOfMethods( methodsAdded, "added" ) ;
-        sawOptionalActions |= reportSummaryListOfMethods( methodsModified, "modified" ) ;
-        sawOptionalActions |= reportSummaryListOfMethods( methodsDeleted, "deleted" ) ;
-        sawOptionalActions |= reportSummaryListOfMethods( methodsUnchanged, "unchanged" ) ;
-
-        if ( sawOptionalActions )
-            {
-            this.report.append( String.format( "%n* => optional action(s) specified%n" ) ) ;
-            }
-        
-        Requirement.includeComplianceInToString() ;
+//        /*
+//         * display student's methods to check
+//         */
+//
+//        this.report.append( String.format( "%n-----------------%n%nActual:%n" ) ) ;/* IN_PROCESS DEBUG */
+//
+//        Requirement.excludeComplianceInToString() ;
+//        
+//        boolean sawOptionalActions = false ;
+//        
+//        sawOptionalActions |= reportSummaryListOfMethods( methodsAdded, "added" ) ;
+//        sawOptionalActions |= reportSummaryListOfMethods( methodsModified, "modified" ) ;
+//        sawOptionalActions |= reportSummaryListOfMethods( methodsDeleted, "deleted" ) ;
+//        sawOptionalActions |= reportSummaryListOfMethods( methodsUnchanged, "unchanged" ) ;
+//
+//        if ( sawOptionalActions )
+//            {
+//            this.report.append( String.format( "%n* => optional action(s) specified%n" ) ) ;
+//            }
+//        
+//        Requirement.includeComplianceInToString() ;
 
         }   // end determineActual()
 
@@ -1198,6 +1294,7 @@ public final class CodeStructureAnalyzer extends SharedState
      *
      * @return whether any methods had optional actions
      */
+    @SuppressWarnings( "unused" )
     private boolean reportSummaryListOfMethods( final List<MethodKey> methodsToLog,
                                                 final String actionCategory )
         {
@@ -1334,27 +1431,27 @@ public final class CodeStructureAnalyzer extends SharedState
             /* IN_PROCESS - will this cause NPEs? */
             }   // end for method
 
-        /*
-         * list the methods we expect will be affected (added, modified, deleted, left unchanged)
-         */
-
-        this.report.append( String.format( "%n-----------------%n%nExpect:%n" ) ) ;
-
-        Requirement.excludeComplianceInToString() ;
-        
-        boolean sawOptionalActions = false ;
-        
-        sawOptionalActions |= reportSummaryListOfMethods( methodsToAdd, "added" ) ;
-        sawOptionalActions |= reportSummaryListOfMethods( methodsToModify, "modified" ) ;
-        sawOptionalActions |= reportSummaryListOfMethods( methodsToDelete, "deleted" ) ;
-        sawOptionalActions |= reportSummaryListOfMethods( methodsToLeaveAsIs, "unchanged" ) ;
-
-        if ( sawOptionalActions )
-            {
-            this.report.append( String.format( "%n* => optional action(s) specified%n" ) ) ;
-            }
-        
-        Requirement.includeComplianceInToString() ;
+//        /*
+//         * list the methods we expect will be affected (added, modified, deleted, left unchanged)
+//         */
+//
+//        this.report.append( String.format( "%n-----------------%n%nExpect:%n" ) ) ;/* DEBUG */
+//
+//        Requirement.excludeComplianceInToString() ;
+//        
+//        boolean sawOptionalActions = false ;
+//        
+//        sawOptionalActions |= reportSummaryListOfMethods( methodsToAdd, "added" ) ;
+//        sawOptionalActions |= reportSummaryListOfMethods( methodsToModify, "modified" ) ;
+//        sawOptionalActions |= reportSummaryListOfMethods( methodsToDelete, "deleted" ) ;
+//        sawOptionalActions |= reportSummaryListOfMethods( methodsToLeaveAsIs, "unchanged" ) ;
+//
+//        if ( sawOptionalActions )
+//            {
+//            this.report.append( String.format( "%n* => optional action(s) specified%n" ) ) ;
+//            }
+//        
+//        Requirement.includeComplianceInToString() ;
 
         }   // end determineExpected()
 
@@ -1530,5 +1627,55 @@ public final class CodeStructureAnalyzer extends SharedState
         this.requirementsForEachMethod.put( methodSignature, requirements ) ;
 
         }   // end setMethodNoRequirements()
+
+
+    @Override
+    public String toString()
+        {
+
+        StringBuilder text = new StringBuilder() ;
+
+        text.append( String.format( "classToAssess: %s%n",
+                                    this.classToAssess ) ) ;
+        text.append( String.format( "baseSearchLocation: %s%n",
+                                    this.baseSearchLocation ) ) ;
+        text.append( String.format( "starterCodePath: %s%n",
+                                    this.starterCodePath ) ) ;
+        text.append( String.format( "studentCodePath: %s%n",
+                                    this.studentCodePath ) ) ;
+        text.append( String.format( "result:%n%s%n",
+                                    this.result.toString().indent( 2 ) ) ) ;
+        text.append( String.format( "report:%n%s%n",
+                                    this.report.toString().indent( 2 ) ) ) ;
+
+        text.append( String.format( "%nstudentWorkMethodSignatures:%n" ) ) ;
+
+        for ( final String signature : this.studentWorkMethodSignatures )
+            {
+
+            text.append( signature.indent( 2 ) ) ;
+
+            }
+
+        text.append( String.format( "%nrequirementsForEachMethod:%n" ) ) ;
+
+        for ( final Entry<String,
+                          List<Requirement>> requirements : this.requirementsForEachMethod.entrySet() )
+            {
+
+            text.append( requirements.getKey().indent( 2 ) ) ;
+
+            for ( final Requirement requirement : requirements.getValue() )
+                {
+
+                text.append( requirement.toString().indent( 4 ) ) ;
+
+                }
+
+            }
+
+        return text.toString() ;
+
+        }   // end toString()
 
     }   // end class CodeStructureAnalyzer
