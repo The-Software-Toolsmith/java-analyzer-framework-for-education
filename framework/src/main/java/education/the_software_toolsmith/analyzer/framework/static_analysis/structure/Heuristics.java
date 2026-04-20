@@ -28,6 +28,7 @@ import com.github.javaparser.resolution.UnsolvedSymbolException ;
 import com.github.javaparser.resolution.declarations.ResolvedConstructorDeclaration ;
 import com.github.javaparser.resolution.declarations.ResolvedMethodDeclaration ;
 
+import java.util.ArrayList ;
 import java.util.List ;
 import java.util.Objects ;
 
@@ -50,10 +51,10 @@ import java.util.Objects ;
  *     </ul>
  * @version 1.6 2025-12-25 add support for constructor chaining
  * @version 1.7 2025-12-26 add support for instantiation
+ * @version 1.8 2026-04-19 enhance method signature comparisons to improve reliability
  */
 public class Heuristics
     {
-
 
     /**
      * determine if one constructor invokes another
@@ -105,8 +106,7 @@ public class Heuristics
             }
         catch ( UnsolvedSymbolException
                 | UnsupportedOperationException e )
-            {
-            }
+            {}  // fall through - not a match
 
         // not a match
         return false ;
@@ -148,8 +148,42 @@ public class Heuristics
                                                     final String methodSignature )
         {
 
-        // the number of methods is likely to be small so checking the number of matches is acceptable
-        return timesMethodWithSignatureCalled( callableDeclaration, methodSignature ) >= 1 ;
+//        // the number of methods is likely to be small so checking the number of matches is acceptable
+//        return timesMethodWithSignatureCalled( callableDeclaration, methodSignature ) >= 1 ;
+
+        Objects.requireNonNull( callableDeclaration, "callableDeclaration" ) ;
+        Objects.requireNonNull( methodSignature, "methodSignature" ) ;
+
+        final List<MethodCallExpr> methodCallExpressions
+                = callableDeclaration.findAll( MethodCallExpr.class ) ;
+
+        final String normalizedMethodSignature = normalize( methodSignature ) ;
+        
+        
+        // check each method invocation to see if it's a match with the target method
+        for ( final MethodCallExpr methodCallExpression : methodCallExpressions )
+            {
+
+            try
+                {
+
+                if ( normalizedMethodSignature.equals( normalize( methodCallExpression.resolve().getSignature() ) ) )
+                    {
+
+                    // found a match
+                    return true ;
+
+                    }
+
+                }
+            catch ( UnsolvedSymbolException
+                    | UnsupportedOperationException e )
+                {}  // fall through - not a match
+
+            }
+
+        // no matches
+        return false ;
 
         }   // end callsMethodWithSignature()
 
@@ -292,9 +326,73 @@ public class Heuristics
         }   // end timesObjectInstantiatedWithSignatureCalled()
 
 
+//    /**
+//     * massage a basic method signature string into a form appropriate for symbol solver so we can identify
+//     * method invocations of specific overloaded methods
+//     *
+//     * @param methodSignature
+//     *     the basic method signature
+//     *
+//     * @return normalized form of the method signature
+//     */
+//    private static String normalize( final String methodSignature )
+//        {
+//
+//        // Keep it simple for your specific need: "add(T)" vs "add(T[])" and tolerate erasure by mapping any
+//        // non-array -> "*", any array -> "[]".
+//        final int leftParenIndex = methodSignature.indexOf( '(' ) ;
+//        final int rightParenIndex = methodSignature.lastIndexOf( ')' ) ;
+//
+//        if ( ( leftParenIndex < 0 ) || ( rightParenIndex < leftParenIndex ) )
+//            {
+//            return methodSignature.trim() ;
+//            }
+//
+//        String methodName = methodSignature.substring( 0, leftParenIndex ) ;
+//        final int endOfPackageIndex = methodName.lastIndexOf( '.' ) ;
+//
+//        if ( endOfPackageIndex >= 0 )
+//            {
+//            methodName = methodName.substring( endOfPackageIndex + 1 ) ;
+//            }
+//
+//        methodName = methodName.trim() ;
+//
+//        final String parameterComponent
+//                = methodSignature.substring( leftParenIndex + 1, rightParenIndex ).trim() ;
+//
+//        if ( parameterComponent.isEmpty() )
+//            {
+//            return methodName + "()" ;
+//            }
+//
+//        final String[] parameters = parameterComponent.split( "\\s*,\\s*" ) ;
+//        final StringBuilder normalizedForm = new StringBuilder( methodName ).append( '(' ) ;
+//
+//        for ( int i = 0 ; i < parameters.length ; i++ )
+//            {
+//            final String parameter = parameters[ i ].trim() ;
+//            normalizedForm.append( parameter.endsWith( "[]" )
+//                    ? "[]"
+//                    : "*" ) ;
+//
+//            if ( ( i + 1 ) < parameters.length )
+//                {
+//                normalizedForm.append( ',' ) ;
+//                }
+//
+//            }
+//
+//        normalizedForm.append( ')' ) ;
+//        return normalizedForm.toString() ;
+//
+//        }   // end normalize()
+
+
     /**
-     * massage a basic method signature string into a form appropriate for symbol solver so we can identify
-     * method invocations of specific overloaded methods
+     * Massage a method signature string into a compact form suitable for overload matching: add(T) -> add(*)
+     * add(T[]) -> add([]) Non-array parameters normalize to "*". Array and varargs parameters normalize to
+     * "[]".
      *
      * @param methodSignature
      *     the basic method signature
@@ -304,54 +402,165 @@ public class Heuristics
     private static String normalize( final String methodSignature )
         {
 
-        // Keep it simple for your specific need: "add(T)" vs "add(T[])" and tolerate erasure by mapping any
-        // non-array -> "*", any array -> "[]".
-        final int leftParenIndex = methodSignature.indexOf( '(' ) ;
-        final int rightParenIndex = methodSignature.lastIndexOf( ')' ) ;
+        if ( methodSignature == null )
+            {
+
+            return null ;
+
+            }
+
+        final String signature = methodSignature.trim() ;
+
+        final int leftParenIndex = signature.indexOf( '(' ) ;
+        final int rightParenIndex = signature.lastIndexOf( ')' ) ;
 
         if ( ( leftParenIndex < 0 ) || ( rightParenIndex < leftParenIndex ) )
             {
-            return methodSignature.trim() ;
+
+            return signature ;
+
             }
 
-        String methodName = methodSignature.substring( 0, leftParenIndex ) ;
-        final int endOfPackageIndex = methodName.lastIndexOf( '.' ) ;
+        String methodName = signature.substring( 0,
+                                                 leftParenIndex )
+                                     .trim() ;
+        final int lastDotIndex = methodName.lastIndexOf( '.' ) ;
 
-        if ( endOfPackageIndex >= 0 )
+        if ( lastDotIndex >= 0 )
             {
-            methodName = methodName.substring( endOfPackageIndex + 1 ) ;
+
+            methodName = methodName.substring( lastDotIndex + 1 )
+                                   .trim() ;
+
             }
 
-        methodName = methodName.trim() ;
+        final String parameterText = signature.substring( leftParenIndex + 1,
+                                                          rightParenIndex )
+                                              .trim() ;
 
-        final String parameterComponent
-                = methodSignature.substring( leftParenIndex + 1, rightParenIndex ).trim() ;
-
-        if ( parameterComponent.isEmpty() )
+        if ( parameterText.isEmpty() )
             {
+
             return methodName + "()" ;
+
             }
 
-        final String[] parameters = parameterComponent.split( "\\s*,\\s*" ) ;
-        final StringBuilder normalizedForm = new StringBuilder( methodName ).append( '(' ) ;
+        final java.util.List<String> parameters = splitTopLevelParameters( parameterText ) ;
 
-        for ( int i = 0 ; i < parameters.length ; i++ )
+        final StringBuilder normalized = new StringBuilder( methodName ).append( '(' ) ;
+
+        for ( int i = 0 ; i < parameters.size() ; i++ )
             {
-            final String parameter = parameters[ i ].trim() ;
-            normalizedForm.append( parameter.endsWith( "[]" )
-                    ? "[]"
-                    : "*" ) ;
 
-            if ( ( i + 1 ) < parameters.length )
+            final String parameter = parameters.get( i )
+                                               .trim() ;
+
+            if ( isArrayLike( parameter ) )
                 {
-                normalizedForm.append( ',' ) ;
+
+                normalized.append( "[]" ) ;
+
+                }
+            else
+                {
+
+                normalized.append( '*' ) ;
+
+                }
+
+            if ( i + 1 < parameters.size() )
+                {
+
+                normalized.append( ',' ) ;
+
                 }
 
             }
 
-        normalizedForm.append( ')' ) ;
-        return normalizedForm.toString() ;
+        normalized.append( ')' ) ;
+        return normalized.toString() ;
 
         }   // end normalize()
+
+    
+/* IN_PROCESS */
+    /**
+     * 
+     * PLACEHOLDER
+     * 
+     * @param parameter
+     * @return
+     */
+    private static boolean isArrayLike( final String parameter )
+        {
+
+        final String p = parameter.trim() ;
+        return p.endsWith( "[]" ) || p.endsWith( "..." ) ;
+
+        }   // end isArrayLike()
+
+
+    /**
+     * 
+     * PLACEHOLDER
+     * 
+     * @param parameterText
+     * @return
+     */
+    private static List<String> splitTopLevelParameters( final String parameterText )
+        {
+
+        final List<String> parameters = new ArrayList<>() ;
+        final StringBuilder current = new StringBuilder() ;
+
+        int genericDepth = 0 ;
+
+        for ( int i = 0 ; i < parameterText.length() ; i++ )
+            {
+
+            final char c = parameterText.charAt( i ) ;
+
+            if ( c == '<' )
+                {
+
+                genericDepth++ ;
+                current.append( c ) ;
+
+                }
+            else if ( c == '>' )
+                {
+
+                genericDepth-- ;
+                current.append( c ) ;
+
+                }
+            else if ( ( c == ',' ) && ( genericDepth == 0 ) )
+                {
+
+                parameters.add( current.toString()
+                                       .trim() ) ;
+                current.setLength( 0 ) ;
+
+                }
+            else
+                {
+
+                current.append( c ) ;
+
+                }
+
+            }
+
+        if ( ! current.isEmpty() )
+            {
+
+            parameters.add( current.toString()
+                                   .trim() ) ;
+
+            }
+
+        return parameters ;
+
+        }   // end splitTopLevelParameters()
 
     }   // end class Heuristics

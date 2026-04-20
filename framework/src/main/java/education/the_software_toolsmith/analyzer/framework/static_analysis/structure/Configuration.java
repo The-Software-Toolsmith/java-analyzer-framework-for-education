@@ -38,6 +38,7 @@ import java.util.Objects ;
  * @author David M Rosenberg
  *
  * @version 1.0 2025-12-15 Initial implementation based on code from ChatGPT 5.2
+ * @version 1.1 2026-04-19 TEMP enhancement to determine project source code given the class under test
  */
 public class Configuration
     {
@@ -73,19 +74,53 @@ public class Configuration
             solver.add( new JavaParserTypeSolver( /* path */ path.toFile().isDirectory()
                     ? path
                     : path.getParent() ) ) ;
+            
+            solver.add( new JavaParserTypeSolver( findMavenJavaRoot( path ) ) ) ;/* IN_PROCESS should also add src? */
             }
 
-        Path srcPath = Path.of( "./src" ) ;
-        Path srcMainJavaPath = Path.of( "./src/main/java" ) ;
+//        Path srcPath = Path.of( "./src" ) ;
+//        Path srcMainJavaPath = Path.of( "./src/main/java" ) ;
         
         // let the symbol resolver know about all code in this project
-        solver.add( new JavaParserTypeSolver( srcPath ) );
-        solver.add( new JavaParserTypeSolver( srcMainJavaPath ) );
+//        solver.add( new JavaParserTypeSolver( srcPath ) );
+//        solver.add( new JavaParserTypeSolver( srcMainJavaPath ) );
 
         config.setSymbolResolver( new JavaSymbolSolver( solver ) ) ;
 
         StaticJavaParser.setConfiguration( config ) ;
 
         }   // end configureSolver()
+    
+    
+    /* IN_PROCESS add Javadoc; DMR TODO move to file utilities */
+    public static Path findMavenJavaRoot( Path path )
+        {
+
+        for ( int i = 0 ; i <= path.getNameCount() - 3 ; i++ )
+            {
+
+            if ( "src".equals( path.getName( i )
+                                   .toString() )
+                 && "main".equals( path.getName( i + 1 )
+                                       .toString() )
+                 && "java".equals( path.getName( i + 2 )
+                                       .toString() ) )
+                {
+
+                Path subpath = path.subpath( 0,
+                                             i + 3 ) ;
+
+                return path.getRoot() == null
+                        ? subpath
+                        : path.getRoot()
+                              .resolve( subpath ) ;
+
+                }
+
+            }
+
+        return null ;
+
+        }   // end findMavenJavaRoot()
 
     }   // end class Configuration

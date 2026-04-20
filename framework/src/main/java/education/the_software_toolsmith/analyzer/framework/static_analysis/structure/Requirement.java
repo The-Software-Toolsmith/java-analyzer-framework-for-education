@@ -60,6 +60,7 @@ import java.util.Objects ;
  *     <li>add arguments and grading maps
  *     <li>add remaining getters
  *     </ul>
+ * @version 2.1.1 2026-04-19 fix typos in Javadoc comments
  */
 public class Requirement
     {
@@ -601,7 +602,7 @@ public class Requirement
 
     // include compliance in toString() output
     /**
-     * flip the switch to exclude the compliance description in the output from {@@code toString()}
+     * flip the switch to exclude the compliance description in the output from {@code toString()}
      *
      * @return the prior setting where {@code true} indicates include it and {@code false} exclude it
      */
@@ -618,7 +619,7 @@ public class Requirement
 
 
     /**
-     * flip the switch to include the compliance description in the output from {@@code toString()}
+     * flip the switch to include the compliance description in the output from {@code toString()}
      *
      * @return the prior setting where {@code true} indicates include it and {@code false} exclude it
      */
@@ -648,7 +649,7 @@ public class Requirement
 
 
     /**
-     * flip the switch to include the compliance description in the output from {@@code toString()}
+     * flip the switch to include the compliance description in the output from {@code toString()}
      *
      * @param includeIt
      *     {@code true} indicates include it and {@code false} exclude it
@@ -671,7 +672,7 @@ public class Requirement
 
 
     /**
-     * flip the switch to exclude the compliance description in the output from {@@code toString()}
+     * flip the switch to exclude the compliance description in the output from {@code toString()}
      *
      * @return the prior setting where {@code true} indicates include it and {@code false} exclude it
      */
@@ -688,7 +689,7 @@ public class Requirement
 
 
     /**
-     * flip the switch to include the compliance description in the output from {@@code toString()}
+     * flip the switch to include the compliance description in the output from {@code toString()}
      *
      * @return the prior setting where {@code true} indicates include it and {@code false} exclude it
      */
@@ -718,7 +719,7 @@ public class Requirement
 
 
     /**
-     * flip the switch to include indentation in the output from {@@code toString()}
+     * flip the switch to include indentation in the output from {@code toString()}
      *
      * @param indentIt
      *     {@code true} indicates include it and {@code false} exclude it

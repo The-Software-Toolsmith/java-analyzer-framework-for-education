@@ -20,15 +20,23 @@
 
 package education.the_software_toolsmith.analyzer.tools ;
 
+import education.the_software_toolsmith.analyzer.framework.dynamic_analysis.TestingBase ;
 import education.the_software_toolsmith.analyzer.framework.static_analysis.structure.CodeStructureAnalyzer ;
 import education.the_software_toolsmith.analyzer.framework.static_analysis.structure.Configuration ;
 import education.the_software_toolsmith.analyzer.framework.static_analysis.structure.Requirement ;
+import education.the_software_toolsmith.analyzer.framework.utilities.AnalysisException ;
 
 import static education.the_software_toolsmith.analyzer.framework.static_analysis.structure.Behavior.* ;
 import static education.the_software_toolsmith.analyzer.framework.static_analysis.structure.Requirement.* ;
 import static education.the_software_toolsmith.analyzer.framework.static_analysis.structure.TargetType.* ;
 import static education.the_software_toolsmith.analyzer.framework.utilities.SharedState.className ;
-import static education.the_software_toolsmith.analyzer.framework.utilities.SharedState.longAssignmentId ;
+
+import java.io.FileNotFoundException ;
+import java.nio.file.Path ;
+import java.util.List ;
+
+//import static education.the_software_toolsmith.analyzer.framework.utilities.SharedState.longAssignmentId ;
+import static education.the_software_toolsmith.analyzer.framework.utilities.SharedState.* ;
 
 
 /**
@@ -40,6 +48,7 @@ import static education.the_software_toolsmith.analyzer.framework.utilities.Shar
  * @version 2.0 2025-12-17 first pass quick and dirty mods to handle any adt
  * @version 3.0 2025-12-23 remove all validator functionality to new class ImplementationComplianceChecker
  * @version 4.0 2026-01-10 rename from {@code ValidateImplemention} to {@code AnalyzeCodeStructure}
+ * @version 5.0 2026-04-19 TEMP updates to specifically grade this semester's LinkedBag assignment
  */
 @SuppressWarnings( "javadoc" )  // DMR FUTURE add Javadoc comments
 public class AnalyzeCodeStructure
@@ -53,26 +62,106 @@ public class AnalyzeCodeStructure
      *
      * @throws Exception
      */
-    public static void main( final String[] args ) throws Exception
+    public static void main( final String[] args )
+            throws Exception
         {
 
+        /* IN_PROCESS */
+        setStrings( "LinkedBag",
+                    "bags",
+                    "bags",
+                    "module-02-lab",
+                    "m2l" ) ;
+
         final String classToAssess = className + ".java" ;
-/* DEBUG */System.out.printf( "%s%n", System.getProperty( "user.dir" ) ) ;
-/* IN_PROCESS changed search starting point from ./ to ../ due to modularization */
+/* start TEMP */
+/* IN_PROCESS */ final String baseSearchLocation = "C:/code/WIT/2026/1sp/ds-m2l/" ;
 
-        final String baseSearchLocation = "../to-grade/" + longAssignmentId + "/" ;
 
-        final CodeStructureAnalyzer checker
-                = new CodeStructureAnalyzer( classToAssess, baseSearchLocation ) ;
+        List<Path> found = TestingBase.findFiles( classToAssess,
+                                                  baseSearchLocation ) ;
+        Path starter = null ;
 
-        // configure JavaParser and symbol solver to find student's code
-        Configuration.configureSolver( checker.studentCodePath ) ;
 
-        configureImplementationValidation( checker ) ;
+        for ( Path path : found )
+            {
 
-        checker.analyze() ;
+            if ( path.toString()
+                     .contains( "~ username ~" ) )
+                {
 
-        System.out.printf( "%n%s%n", checker.result ) ;
+                starter = path ;
+
+
+                break ;
+
+                }
+
+            }
+
+        if ( starter == null )
+            {
+
+            throw new FileNotFoundException( "starter" ) ;
+
+            }
+
+        System.out.printf( "%nfound %,d source file%s%n",
+                           found.size(),
+                           found.size() == 1
+                                   ? ""
+                                   : "s" ) ;/* DEBUG */
+
+/* end TEMP */
+        for ( Path path : found )
+            {
+
+            if ( path.toString()
+                     .equals( starter.toString() ) )
+                {
+
+                continue ;
+
+                }
+
+            CodeStructureAnalyzer checker = null ;
+            
+            try
+                {
+
+                checker = new CodeStructureAnalyzer( classToAssess,
+                                                     baseSearchLocation,
+                                                     starter.toString(),
+                                                     path.toString() ) ;
+
+                // configure JavaParser and symbol solver to find student's code
+                Configuration.configureSolver( checker.studentCodePath ) ;
+
+                configureImplementationValidation( checker ) ;
+
+                checker.analyze() ;
+
+                }
+            catch ( Exception e )
+                {
+
+                if ( checker == null )
+                    {
+
+                    // catastrophic failure?
+                    throw new AnalysisException( "unable to instantiate a CodeStructureAnalyzer",
+                                                 e ) ;
+
+                    }
+                
+                // remember this exception
+                checker.result.thrown = e ;
+
+                }   // end catch
+            
+            System.out.printf( "%s%n", checker.result ) ;
+
+            }   // end for
 
         }   // end main()
 

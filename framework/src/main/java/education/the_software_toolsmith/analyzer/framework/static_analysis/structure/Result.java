@@ -32,6 +32,12 @@ import java.util.Map ;
  * @author David M Rosenberg
  *
  * @version 1.0 2025-12-14 Initial implementation based on code from ChatGPT 5.2
+ * @version 1.1 2026-04-19
+ *     <ul>
+ *     <li>reduce amount of information in the report, much of which supported development but isn't useful
+ *     for an end-user</li>
+ *     <li>capture any exception for later reporting</li>
+ *     </ul>
  */
 public class Result
     {
@@ -68,6 +74,9 @@ public class Result
 
     /** textual report contents */
     public StringBuilder report ;
+    
+    /** if an exception occurs during processing, track it */
+    public Throwable thrown ;
 
 
     /**
@@ -106,6 +115,8 @@ public class Result
         this.testsPassed = 0 ;
 
         this.report = new StringBuilder() ;
+        
+        this.thrown = null ;
 
         }   // end constructor
 
@@ -139,53 +150,44 @@ public class Result
             }
 
         return String.format( """
-                              Implementation Compliance Assessment Summary:
-
                               %s
-                              Summary:
-
-                              Passed:
-
+                              
+                              Implementation Compliance Assessment for %s in
+                                %s
                               %s
-
-                              Failed:
-
                               %s
-
-                              Not Checked:
-
-                              %s
-
-                              Passed %s implementation compliance test%s of %,d for %s
-
-                              ==========
+                              Passed %s implementation compliance test%s for %s in
+                                %s
 
                               Note that this automated testing provides a reasonable assessment but
                               it might not be complete nor is its accuracy or completeness guaranteed
 
-                              ==========
-
                               End of implementation compliance tests.
+                              %s
                               """,
+                              "-".repeat( 25 ),
+                              this.checker.classToAssess,
+                              this.checker.studentCodePath,
                               this.report,
-                              this.passedInspection.size() == 0
-                                      ? "	none"
-                                      : methodsThatPassed.toString(),
-                              this.failedInspection.size() == 0
-                                      ? "	none"
-                                      : methodsThatFailed.toString(),
-                              this.notInspected.size() == 0
-                                      ? "	none"
-                                      : methodsNotInspected.toString(),
-                              this.testsPassed == 0
-                                      ? "no"
-                                      : String.format( "%,d",
-                                                       this.testsPassed ),
+                              this.thrown == null
+                                      ? ""
+                                      : String.format( "%n%s%n",
+                                                       this.thrown.getMessage() ),
+                              this.testCount == 0
+                                  ? "no"
+                                  : this.testsPassed == 0
+                                      ? String.format( "none of %,d",
+                                                       this.testCount )
+                                      : String.format( "%3d of %3d (%3d%%)",
+                                                       this.testsPassed,
+                                                       this.testCount,
+                                                       ( this.testsPassed * 100 ) / this.testCount ),
                               this.testsPassed == 1
                                       ? ""
                                       : "s",
-                              this.testCount,
-                              this.checker.classToAssess ) ;
+                              this.checker.classToAssess,
+                              this.checker.studentCodePath,
+                              "-".repeat( 25 ) ) ;
 
         }   // end toString()
 
