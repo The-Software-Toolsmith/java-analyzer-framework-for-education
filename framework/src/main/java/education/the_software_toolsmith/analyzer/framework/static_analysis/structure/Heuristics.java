@@ -390,9 +390,14 @@ public class Heuristics
 
 
     /**
-     * Massage a method signature string into a compact form suitable for overload matching: add(T) -> add(*)
-     * add(T[]) -> add([]) Non-array parameters normalize to "*". Array and varargs parameters normalize to
-     * "[]".
+     * Massage a method signature string into a compact form suitable for
+     * overload matching:
+     * <pre><code>
+     * add(T)   -> add(*)
+     * add(T[]) -> add([])
+     * </code></pre>
+     * Non-array parameters normalize to "*".<br>
+     * Array and varargs parameters normalize to "[]".
      *
      * @param methodSignature
      *     the basic method signature
