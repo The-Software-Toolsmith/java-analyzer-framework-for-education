@@ -11,13 +11,19 @@ and with no design document as a guide, based upon my needs for any arbitrary la
 Bottom line, it's a bit of a mess but it's time to put it out there.
 
 ## Background
-I used JUnit to test the correctness of the results of my students' code.  While a very useful tool in industry,
-students such as mine (I primarily teach foundation-level courses: CS1, CS2, Data Structures) do not have the
-experience or insights to effectively use the results of those tests.  These tests also tend to be at a high level,
-only testing accessible/visible methods; they do not exercise private methods and they require that the entire
-implementation be in-place.  Generally not a problem for CS1.  Learning object-oriented programming in CS2
-introduces new challenges for the students and the tests - properly structured objects can't be interrogated by
-external code due to encapsulation/visibility constraints.
+Many years ago I had a student who submitted a solution to a programming assignment which passed all 3 automated tests. They earned a zero. Their 'solution' was to check the arguments and return a predetermined answer. A simple, typical way to address this is to test with random data. Yes, for this particular student that would have cleanly identified their work as wrong. Another option was to increase the number of tests - I suspect that for this student it wouldn't have changed anything unless the number of tests increased significantly.
+
+Unfortunately, these approaches wouldn't have done anything to advance their understanding of the subject matter or the skills related to it. They missed the point of the exercise or, more likely, they didn't give themself enough time to properly do the assignment and figured I wouldn't review their code so they just might get away with it - I did, they didn't.
+
+I'm not the only instructor to have encountered this behavior.
+
+I recognized that I could do more to help my students succeed - I could provide them tools to better understand the expected results given a specification.  This started the journey to develop this framework.
+
+At the time, I didn't consider how I might want enhance the evaluation so I didn't architect a solution. The evolution has therefor been haphazard and challenging - both to implement the framework and to apply it different assignments. This forced me to make some significant structural changes to the framework - less so to the tests I had already built.
+
+Now, I'm taking a decade of experience with the framework and taking a step back to architect it.
+
+I used JUnit to test the correctness of the results of my students' code.  While a very useful tool in industry, students such as mine (I primarily teach foundation-level courses: CS1, CS2, Data Structures) do not have the experience or insights to effectively use the results of those tests.  These tests also tend to be at a high level, only testing accessible/visible methods; they do not exercise private methods, they don't verify the state of objects, and they require that the entire implementation be in-place.  Generally not a problem for CS1.  Learning object-oriented programming in CS2 introduces new challenges for the students and the tests - properly structured objects can't be interrogated by external code due to encapsulation/visibility constraints.
 
 ## The Solution
 \[come back soon - I'm workin' on it 8~\]
