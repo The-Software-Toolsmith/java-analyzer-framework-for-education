@@ -19,7 +19,7 @@ I'm not the only instructor to have encountered this behavior.
 
 I recognized that I could do more to help my students succeed - I could provide them tools to better understand the expected results given a specification.  This started the journey to develop this framework.
 
-At the time, I didn't consider how I might want enhance the evaluation so I didn't architect a solution. The evolution has therefor been haphazard and challenging - both to implement the framework and to apply it different assignments. This forced me to make some significant structural changes to the framework - less so to the tests I had already built.
+At the time, I didn't consider how I might want to enhance the evaluation so I didn't architect a solution. The evolution has therefor been haphazard and challenging - both to implement the framework and to apply it to different assignments. This forced me to make some significant structural changes to the framework - less so to the tests I had already built (backward compatibility is a good thing).
 
 Now, I'm taking a decade of experience with the framework and taking a step back to architect it.
 
@@ -31,7 +31,7 @@ I used JUnit to test the correctness of the results of my students' code.  While
 
 ---
 
-This work is in affiliation with [Wentworth Institute of Technology](https://wit.edu), School of Computing and Data Science.
+I started this project while teaching at [Wentworth Institute of Technology](https://wit.edu), School of Computing and Data Science.
 
 Copyright © 2016-2026 David M Rosenberg, The Software Toolsmith
 
